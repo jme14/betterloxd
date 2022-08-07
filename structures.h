@@ -22,9 +22,16 @@ typedef struct llnode
 typedef struct mnode
 {
     LLNode** head;
-    int screen;
+    char screen[50];
     int size;
 } mNode;
+
+typedef struct mchoice
+{
+    int index;
+    int code;
+    char title[50];
+} menuChoice;
 
 /* File Reading Structures */
 

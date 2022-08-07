@@ -1,26 +1,20 @@
 #include "main.h"
 #include "../userInput.h"
 #include "../../helpers.h"
+#include "../structures.h"
 
 #define TESTINGVAL 1002
 
-
-typedef struct mchoice
-{
-    int index;
-    int code;
-    char title[50];
-} menuChoice;
-
-int main ( void  )
-{
-    printLimitedMenuChoice(getMenuChoices());
-}
+/* int main ( void  ) */
+/* { */
+/*     long value = getMenuChoices(); */
+/*     printf("The long val you need is %ld\n", value); */
+/* } */
 
 void readMenuText()
     // this function simply reads the list of menus in the menus.txt file
 {
-    FILE* fp = fopen("./BinaryCypher/menus.txt", "r");
+    FILE* fp = fopen("menus.txt", "r");
 
     char line[300];
 
@@ -105,71 +99,6 @@ long returnIntegerFromBinaryString(char* binaryString)
 }
 
 
-void printLimitedMenuChoice(long code)
-{
-
-    char* menuChoiceFinder = dTOb(code);
-
-    FILE* fp = fopen("./BinaryCypher/menus.txt", "r");
-
-    int choiceSize = 0;
-    int fileSize = 0;
-    char line[300];
-
-    if ( fp == NULL )
-    {
-        puts("FATAL ERROR: can't read file");
-    }
-    else
-    {
-
-
-        //printf("menuChoiceFinder is %s\n", menuChoiceFinder);
-        for ( int i = 0 ; !feof(fp) ; i++ )
-        {
-
-            fgets(line, 300, fp);
-
-            if ( menuChoiceFinder[i] == '1' )
-            {
-            choiceSize++;
-            }
-
-            fileSize++;
-        }
-
-        rewind(fp);
-
-        menuChoice* mChoice = malloc(sizeof(menuChoice)*choiceSize);
-        int mChoiceIndex = 0;
-
-        char* titleTemp;
-
-        for ( int i = 0 ; i < fileSize ; i++ )
-        {
-            fgets(line, 300, fp);
-            if ( menuChoiceFinder[i] == '1' )
-            {
-                mChoice[mChoiceIndex].code = strtol(line, NULL, 10);
-                titleTemp = strtok(line, ".");
-                titleTemp = strtok(NULL, "\n");
-
-                strcpy(mChoice[mChoiceIndex].title, titleTemp);
-
-                mChoice[mChoiceIndex].index = mChoiceIndex+1;
-
-                mChoiceIndex++;
-            }
-        }
-
-        for ( int i = 0 ; i < choiceSize ; i++ )
-        {
-            printf("%d. %s\n", mChoice[i].index, mChoice[i].title);
-        }
-
-    }
-
-}
 
 char* dTOb(long dec) //returns a BACKWARD binary sequence based on the provided number
 // THIS IS THE FUNCTION USED BY OTHER FUNCTIONS TO INTERPRET INTEGER GIVEN BY USER

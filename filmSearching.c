@@ -1,5 +1,91 @@
 #include "filmSearching.h"
+#include "userInput.h"
 
+void searchAll(char* listTitle, int searchType, mNode* menuNode)
+{
+    filmDB* DBP = getDB(menuNode, listTitle);
+
+    if ( DBP != NULL )
+    {
+        filmDB DB = *DBP;
+
+        if ( searchType == 0 ) // this is year
+        {
+            puts("Enter sought after year");
+            int year = getChoice();
+
+            filmData** foundFilm = findByYear(year, DB);
+
+            if ( foundFilm != NULL )
+            {
+                printf("%d diary entries found...\n", getArraySize(foundFilm));
+
+                for ( int i = 0 ; i < getArraySize(foundFilm) ; i++ )
+                {
+                    printFilmData(foundFilm[i]);
+                }
+            }
+            else
+            {
+                puts("Failed to find films of this year");
+            }
+        }
+
+        if ( searchType == 1 ) // this is title
+        {
+            puts("Enter sought after film");
+            char* finder = getPrompt();
+
+            printf("Looking for film of title %s\n", finder);
+            filmData** foundFilm2 = findByTitle(finder, DB);
+
+            if ( foundFilm2 != NULL )
+            {
+                printf("%d entries found of that title\n", getArraySize(foundFilm2));
+
+                if ( getArraySize(foundFilm2) == 0)
+                {
+                    puts("Here's a guess for what you meant...");
+                    foundFilm2 = findByTitle(foundFilm2[0]->title, DB);
+                }
+
+                for ( int i = 0 ; i < getArraySize(foundFilm2) ; i++)
+                {
+                    printFilmData(foundFilm2[i]);
+                }
+
+            }
+        }
+        if ( searchType == 2 ) // this is rating
+        {
+
+            puts("Enter sought after film rating");
+            float finder = strtof(getPrompt(), NULL);
+
+            printf("Looking for films of rating %g\n", finder);
+            filmData** foundFilm2 = findByRating(finder, DB);
+
+            if ( foundFilm2 != NULL )
+            {
+                printf("%d entries found of that title\n", getArraySize(foundFilm2));
+
+                if ( getArraySize(foundFilm2) == 0)
+                {
+                    puts("No films of that rating...");
+                }
+
+                for ( int i = 0 ; i < getArraySize(foundFilm2) ; i++)
+                {
+                    printFilmData(foundFilm2[i]);
+                }
+            }
+        }
+    }
+    else
+    {
+        puts("Can't find the listed DB");
+    }
+}
 
 filmData** findByTitle(char* title, filmDB filmDB) // Searching Function
     // searches the title binary tree, serves as a wrapper function

@@ -5,4 +5,6 @@
 #include "BST.h"
 
 
+void searchAll(char* listTitle, int searchType, mNode* menuNode);
+
 #endif // FILMSEARCHING_H_
