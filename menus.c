@@ -1,5 +1,5 @@
 #include "menus.h"
-
+#define TOTALMENUS 5
 mNode* initMenu()
 {
     mNode* menuNode = malloc(sizeof(mNode));
@@ -13,11 +13,12 @@ mNode* initMenu()
 
     menuNode->head = &permaHead;
 
+
     return menuNode;
 }
+
 /* LIST OF POTENTIAL MENUS */
 // Upload Menu ( MAIN MENU )
-
 // Diary Editor (searching, printing, tag editor, etc)
 
 // List Uploader
