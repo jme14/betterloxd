@@ -128,6 +128,7 @@ void initNode(int tokens, filmData* node, char* fileLine)
 }
 
 filmData** fileReader(char* fileLocation)
+    /* This function reads the diary */
 {
     filmData** nodeArray = NULL;
     FILE* fp = fopen(fileLocation, "r");

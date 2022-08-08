@@ -10,4 +10,6 @@ void freeTree(TreeNode* head);
 void freeLL(LLNode* head);
 void freeFilmDB(filmDB DB);
 
+
+void freeMenuChoice(menuChoice* mChoice);
 #endif // FREE_H_

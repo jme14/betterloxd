@@ -1,5 +1,6 @@
 #include "menus.h"
 #include "filmSearching.h"
+#include "free.h"
 
 #define TOTALMENUS 5
 mNode* initMenu()
@@ -14,7 +15,6 @@ mNode* initMenu()
     permaHead->object = NULL;
 
     menuNode->head = &permaHead;
-
 
     return menuNode;
 }
@@ -33,31 +33,37 @@ mNode* menu(mNode* menuNode) // menu work
     int choiceIndex = 0;
 
 
-    printf("the difference between %s and %s is %d\n", " Upload Lists", menuNode->screen, strcmp(menuNode->screen, " Upload Lists"));
     if ( strcmp(menuNode->screen, "Exit") == 0 )
     {
         puts("Bye!");
         exit ( 0 );
     }
-    else if ( strcmp(menuNode->screen, " Main Menu") == 0 ) //UPLOAD PROMPT
+    else if ( strcmp(menuNode->screen, "Main Menu") == 0 ) //UPLOAD PROMPT
     {
         if( menuNode->size == 0 )
         {
             puts("\n\nWelcome to LB+!");
-            puts("What would you like to do?\n");
         }
 
+        puts("What would you like to do?\n");
         printf("(You have %d items uploaded)\n\n", menuNode->size);
 
-        mChoice = getMenuChoiceScreen(34);
+
+        if ( menuNode->size == 0 ) // if nothing is uploaded...
+        {
+            mChoice = getMenuChoiceScreen(34);
+        }
+        else // if something is uploaded, go to the list editing screen
+        {
+            mChoice = getMenuChoiceScreen(98);
+        }
 
         choiceIndex = getChoice();
         strcpy(menuNode->screen, getmChoiceByIndex(mChoice, choiceIndex));
-
-        printf("menuNode->screen is now %s\n", menuNode->screen);
+        freeMenuChoice(mChoice);
         menu(menuNode);
     }
-    else if ( strcmp(menuNode->screen, " Upload and Edit Diary") == 0) //DIARY UPLOAD PROMPT
+    else if ( strcmp(menuNode->screen, "Upload and Edit Diary") == 0) //DIARY UPLOAD PROMPT
     {
         filmDB diaryDB;
 
@@ -67,7 +73,11 @@ mNode* menu(mNode* menuNode) // menu work
         }
         else
         {
-            removeDB(menuNode, "Diary");
+            int didRemove = removeDB(menuNode, "Diary");
+            if ( didRemove != 1 )
+            {
+                puts("Failed to delete diary, check removeDB function");
+            }
             diaryDB = uploadDiary();
         }
 
@@ -88,9 +98,10 @@ mNode* menu(mNode* menuNode) // menu work
 
 
         strcpy(menuNode->screen, getmChoiceByIndex(mChoice, choiceIndex));
+        freeMenuChoice(mChoice);
         menu(menuNode);
     }
-    else if ( strcmp(menuNode->screen, " Upload Lists") == 0)
+    else if ( strcmp(menuNode->screen, "Upload Lists") == 0)
     {
         puts("Enter the number corresponding to your desired list");
 
@@ -106,6 +117,7 @@ mNode* menu(mNode* menuNode) // menu work
             mChoice = getMenuChoiceScreen(1);
 
             strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+            freeMenuChoice(mChoice);
             menu(menuNode);
         }
         else
@@ -116,27 +128,71 @@ mNode* menu(mNode* menuNode) // menu work
 
             if ( getDB(menuNode, listTitle) == NULL )
             {
-                puts("Inside if statement");
+                //puts("Inside if statement");
                 listDB = uploadList(listTitle);
-                puts("Uploaded new list");
+                //puts("Uploaded new list");
                 insertTrueLL(*menuNode->head, &listDB);
-                puts("Inserted list into LL");
+                //puts("Inserted list into LL");
                 menuNode->size++;
-                puts("Increased size");
+                //puts("Increased size");
             }
 
-            puts("About to get diary info");
+            //puts("About to get diary info");
             getDiaryInfo(menuNode, listTitle);
 
-            puts("List uploaded. What now?");
-
-            mChoice = getMenuChoiceScreen(385);
-
-            choiceIndex = getChoice();
-
-            strcpy(menuNode->screen, getmChoiceByIndex(mChoice, choiceIndex));
+            mChoice = getMenuChoiceScreen(64);
+            strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+            freeMenuChoice(mChoice);
             menu(menuNode);
         }
+    }
+    else if ( strcmp(menuNode->screen, "List Editor Menu") == 0 )
+    {
+        puts("What do you want to do with your lists?");
+
+        mChoice = getMenuChoiceScreen(385);
+        choiceIndex = getChoice();
+
+        strcpy(menuNode->screen, getmChoiceByIndex(mChoice, choiceIndex));
+        freeMenuChoice(mChoice);
+        menu(menuNode);
+    }
+    else if ( strcmp(menuNode->screen, "List Searching Hub") == 0 )
+    {
+        puts("Enter the list to be searched");
+
+        printDBlist(menuNode);
+
+        int listIndex = getChoice();
+
+        filmDB* list = getDBbyIndex(menuNode, listIndex);
+
+        puts("\n\nWhat would you like to search for?");
+
+        puts("1: Film year");
+        puts("2: Film title");
+        puts("3: Film rating");
+        puts("4: Main Menu");
+
+        int searchType = getChoice() - 1;
+
+        if ( searchType > -1 && searchType < 3)
+        {
+            searchAll(list->identifier, searchType, menuNode);
+
+            mChoice = getMenuChoiceScreen(64);
+            strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+            freeMenuChoice(mChoice);
+            menu(menuNode);
+        }
+        else if ( searchType == 3 )
+        {
+            mChoice = getMenuChoiceScreen(1);
+            strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+            freeMenuChoice(mChoice);
+            menu(menuNode);
+        }
+
     }
     else if ( strcmp(menuNode->screen, "Diary Search") == 0 ) // DIARY SEARCH SCREEN
     {
@@ -147,16 +203,20 @@ mNode* menu(mNode* menuNode) // menu work
         puts("3: Film rating");
         puts("4: Main Menu");
 
-        int searchType = getChoice();
+        int searchType = getChoice() - 1;
 
-        if ( searchType > 0 && searchType < 4 )
+        if ( searchType > -1 && searchType < 3)
         {
             searchAll("Diary", searchType, menuNode);
+
+            menu(menuNode);
         }
-        else if ( searchType == 4 )
+        else if ( searchType == 3 )
         {
             mChoice = getMenuChoiceScreen(1);
-            strcpy(menuNode->screen, getmChoiceByIndex(mChoice, choiceIndex));
+            strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+            freeMenuChoice(mChoice);
+            menu(menuNode);
         }
         else
         {
@@ -164,126 +224,19 @@ mNode* menu(mNode* menuNode) // menu work
             exit(0);
         }
     }
-    /* else if ( menuNode->screen == 8 ) // SEARCHING DIARY YEAR SCREEN */
-    /* { */
-    /*     filmDB* diaryDBPTR = getDiary(menuNode); */
-
-    /*     if ( diaryDBPTR == NULL ) */
-    /*     { */
-    /*         puts("FATAL ERROR: can't find diary"); */
-    /*         exit ( 0 ); */
-    /*     } */
-
-    /*     filmDB diaryDB = *diaryDBPTR; */
-
-    /*     printf("Enter sought after year\n"); */
-
-    /*     int year = getChoice(); */
-
-    /*     filmData** foundFilm = findByYear(year, diaryDB); */
-
-    /*     if ( foundFilm != NULL ) */
-    /*     { */
-    /*         printf("%d diary entries found...\n", getArraySize(foundFilm)); */
-
-    /*         for ( int i = 0 ; i < getArraySize(foundFilm) ; i++ ) */
-    /*         { */
-    /*             printFilmData(foundFilm[i]); */
-    /*         } */
-    /*     } */
-    /*     else */
-    /*     { */
-    /*         puts("Failed to find films of this year"); */
-    /*     } */
-
-    /*     menuNode->screen = 5; */
-    /*     menu(menuNode); */
-    /* } */
-
-    /* else if ( menuNode->screen == 9 ) // SEARCHING DIARY TITLE SCREEN */
-    /* { */
-    /*     filmDB* diaryDBPTR = getDiary(menuNode); */
-
-    /*     if ( diaryDBPTR == NULL ) */
-    /*     { */
-    /*         puts("FATAL ERROR: can't find diary"); */
-    /*         exit ( 0 ); */
-    /*     } */
-
-    /*     filmDB diaryDB = *diaryDBPTR; */
-
-    /*     puts("Enter sought after film"); */
-    /*     char* finder = getPrompt(); */
-
-
-    /*     printf("Looking for film of title %s\n", finder); */
-    /*     filmData** foundFilm2 = findByTitle(finder, diaryDB); */
-
-    /*     if ( foundFilm2 != NULL ) */
-    /*     { */
-    /*         printf("%d entries found of that title\n", getArraySize(foundFilm2)); */
-
-    /*         if ( getArraySize(foundFilm2) == 0) */
-    /*         { */
-    /*             puts("Here's a guess for what you meant..."); */
-    /*             foundFilm2 = findByTitle(foundFilm2[0]->title, diaryDB); */
-    /*         } */
-
-    /*         for ( int i = 0 ; i < getArraySize(foundFilm2) ; i++) */
-    /*         { */
-    /*             printFilmData(foundFilm2[i]); */
-    /*         } */
-
-    /*     } */
-
-    /*     menuNode->screen = 5; */
-    /*     menu(menuNode); */
-    /* } */
-    /* else if ( menuNode->screen == 11 ) // SEARCHING DIARY RATING SCREEN */
-    /* { */
-
-    /*     filmDB* diaryDBPTR = getDiary(menuNode); */
-
-    /*     if ( diaryDBPTR == NULL ) */
-    /*     { */
-    /*         puts("FATAL ERROR: can't find diary"); */
-    /*         exit ( 0 ); */
-    /*     } */
-
-    /*     filmDB diaryDB = *diaryDBPTR; */
-
-    /*     puts("Enter sought after film rating"); */
-    /*     float finder = strtof(getPrompt(), NULL); */
-
-
-    /*     printf("Looking for films of rating %g\n", finder); */
-    /*     filmData** foundFilm2 = findByRating(finder, diaryDB); */
-
-    /*     if ( foundFilm2 != NULL ) */
-    /*     { */
-    /*         printf("%d entries found of that title\n", getArraySize(foundFilm2)); */
-
-    /*         if ( getArraySize(foundFilm2) == 0) */
-    /*         { */
-    /*             puts("No films of that rating..."); */
-    /*         } */
-
-    /*         for ( int i = 0 ; i < getArraySize(foundFilm2) ; i++) */
-    /*         { */
-    /*             printFilmData(foundFilm2[i]); */
-    /*         } */
-    /*     } */
-    /* } */
     else if ( strcmp(menuNode->screen, "Diary Printer") == 0 )
     {
         puts("How would you like your diary printed?\n");
 
-        printDatabase(*getDiary(menuNode), getPrompt() );
+        char* printType = getPrompt();
+        printDatabase(*getDiary(menuNode), printType);
+        free(printType);
 
         mChoice = getMenuChoiceScreen(1);
 
         strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
 
+        freeMenuChoice(mChoice);
         menu(menuNode);
     }
     else if ( strcmp(menuNode->screen, "List Printer")  == 0)
@@ -304,13 +257,15 @@ mNode* menu(mNode* menuNode) // menu work
 
         printDatabase(*getDBbyIndex(menuNode, listName), listName2);
 
+        free(listName2);
 
         puts("\nPress enter to continue\n");
-        getPrompt();
+        free(getPrompt());
 
         mChoice = getMenuChoiceScreen(32);
 
         strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+        freeMenuChoice(mChoice);
         menu(menuNode);
     }
 
@@ -320,6 +275,7 @@ mNode* menu(mNode* menuNode) // menu work
         mChoice = getMenuChoiceScreen(1);
 
         strcpy(menuNode->screen, getmChoiceByIndex(mChoice, 1));
+        freeMenuChoice(mChoice);
         menu(menuNode);
     }
 
@@ -327,6 +283,8 @@ mNode* menu(mNode* menuNode) // menu work
 }
 
 menuChoice* getMenuChoiceScreen(long code)
+    // MUST BE FREED AFTER GETTING THE REQUIRED INFORMATION!!!
+    // checked for mem leaks
 {
     menuChoice* mChoice = NULL;
     char* menuChoiceFinder = dTOb(code);
@@ -397,6 +355,7 @@ menuChoice* getMenuChoiceScreen(long code)
 }
 
 char* getmChoiceByIndex(menuChoice* mChoice, int index)
+    // checked for memleaks
 {
     char* newScreen = NULL;
 

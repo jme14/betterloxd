@@ -23,7 +23,7 @@ filmDB uploadList(char* listTitle);
 filmDB* getDB(mNode* menuNode, char* listTitle);
 filmDB* getDBbyIndex(mNode* menuNode, int index);
 
-void removeDB(mNode* menuNode, char* identifier);
+int removeDB(mNode* menuNode, char* identifier);
 void printDBlist(mNode* menuNode);
 
 filmData** findByYear(int year, filmDB filmDB);

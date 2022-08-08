@@ -13,9 +13,13 @@ void freeAll(mNode* menuNode)
         DBLL = DBLL->next;
     }
     freeLL(*menuNode->head);
-}
 
-// menus.c
+    // THE LAST PART OF THIS FUNCTION (freeing the menuNode itself)
+
+    free(menuNode->head); //might cause a seg or something
+    free(menuNode);
+
+}
 
 // BST.c
 
@@ -44,12 +48,15 @@ void freeFilmDB(filmDB DB)
     freeTree(DB.titleSort);
 }
 
-// I AM AT THE EDITING DB SECTION //
+// menus.c -- CHECKED
+void freeMenuChoice(menuChoice* mChoice)
+{
+    freeArray(mChoice);
+}
 
-// menus.c
-// userInput.c
-// LBreader.c
-// diaryReader.c
+// userInput.c -- CHECKED
+// LBreader.c -- CHECKED
+// diaryReader.c -- MAKE SURE UPLOAD DIARY ( FILE READER ) IS GETTING FREED
 // dirReader.c
 // listReader.c
 // filmSearching.c

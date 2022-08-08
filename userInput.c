@@ -3,6 +3,7 @@
 
 
 int getChoice ()
+    // does NOT need to be freed
 {
     char response[100];
 

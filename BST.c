@@ -239,7 +239,8 @@ filmDB uploadList(char* listTitle) // Creating DB work
     return listDB;
 }
 
-void removeDB(mNode* menuNode, char* identifier)  //DB Work
+int removeDB(mNode* menuNode, char* identifier)  //DB Work
+    // this function returns 1 if a DB got successfully removed and 0 if no DB was removed
     // CHECKED FOR FREEING
 {
     LLNode* head = *menuNode->head;
@@ -253,26 +254,37 @@ void removeDB(mNode* menuNode, char* identifier)  //DB Work
     filmDB* DB = NULL; // will start at first object
     int ifFound = 0;
 
-
     while ( ifFound == 0 && head != NULL )
     {
-        if ( head->next != NULL )
+        DB = head->object;
+
+        if ( !strcmp(DB->identifier, identifier) )
         {
-            DB = head->next->object;
+            freeFilmDB(*DB);
 
-            if ( DB != NULL && !strcmp(DB->identifier, identifier) ) //then the node AFTER the one DB is on is Diary
+            if ( *menuNode->head == head ) // if the duplicate is in the beginning...
             {
-                filmDB* finder = head->next->object;
-
-                head->next = head->next->next;
-                freeFilmDB(*finder);
-                ifFound = 1;
+                LLNode* headFreer = head;
+                *menuNode->head = head->next;
+                printf("menuNode points to %p and new head points to %p\n", *menuNode->head, head);
+                free(headFreer);
             }
+            else
+            {
+                LLNode* headFreer = head;
+                head = head->next;
+                free(headFreer);
+            }
+
+            ifFound = 1;
         }
+
         head = head->next;
     }
 
     menuNode->size--;
+
+    return ifFound;
 }
 /* EDITING DB */
 
@@ -290,9 +302,6 @@ TreeNode* gDI(TreeNode* head, filmDB* diary) // Editing DB work
 
         if ( answers != NULL ) //as long as a diary entry is found, do the following
         {
-
-            puts ("answers is NOT null actually");
-            printf("found entry with title %s\n", filmData->title);
 
             int lastEntry = getArraySize(answers)-1;
 
@@ -321,9 +330,7 @@ void getDiaryInfo(mNode* menuNode, char* listIdentifier) // Editing DB work
     else
     {
         filmDB* list = getDB(menuNode, listIdentifier);
-        puts("Entering gDI");
         gDI(list->titleSort, diary);
-        puts("Exiting gDI");
     }
 }
 
