@@ -127,7 +127,7 @@ void initNode(int tokens, filmData* node, char* fileLine)
     //printf("node->title is %s | node->year is %d | node->rating is %f\n", node->title, node->year, node->rating);
 }
 
-filmData** fileReader(char* fileLocation)
+filmData** fileReader(char* fileLocation)//NEEDS TO BE FREED
     /* This function reads the diary */
 {
     filmData** nodeArray = NULL;

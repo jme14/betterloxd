@@ -6,13 +6,15 @@
 #include "userInput.h"
 #include "filmNodeInsertion.h"
 #include "menus.h"
-
+#include "free.h"
 #define SIZE 320
 
 int main ( void  )
 {
+    printf("sizeof filmData is %ld", sizeof(filmData));
     mNode* menuNode = initMenu();
     menu(menuNode);
+    puts("Out of menu!");
 }
 
 /* DB INITIALIZING  */
@@ -69,6 +71,7 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
     newTitleNode->right = NULL;
     newTitleNode->next = NULL;
     newTitleNode->object = newFilm;
+    printf("newTitleNode->object is pointing to %p\n", newTitleNode->object);
 
     newYearNode->left = NULL;
     newYearNode->right = NULL;
@@ -206,7 +209,7 @@ filmDB uploadDiary() // DB work
             }
         }
     }
-
+    freeArray(myFilms);
     return diaryDB;
 }
 
@@ -217,7 +220,7 @@ filmDB uploadList(char* listTitle) // Creating DB work
     strcpy(listDB.identifier, listTitle);
 
     //filmData** myFilms = fileReader
-    filmData** myFilms = listFileReader(listTitle);
+    filmData** myFilms = listFileReader(listTitle);//NEEDS TO BE FREED
 
     int filmCount = getArraySize(myFilms);
 
@@ -236,6 +239,7 @@ filmDB uploadList(char* listTitle) // Creating DB work
             }
         }
     }
+    freeArray(myFilms);
     return listDB;
 }
 
@@ -298,11 +302,10 @@ TreeNode* gDI(TreeNode* head, filmDB* diary) // Editing DB work
         filmData** answers = NULL;
         filmData* filmData = head->object;
 
-        answers = findByTitle(filmData->title, *diary);
+        answers = findByTitle(filmData->title, *diary);//FREED
 
         if ( answers != NULL ) //as long as a diary entry is found, do the following
         {
-
             int lastEntry = getArraySize(answers)-1;
 
             filmData->rating = answers[lastEntry]->rating;
@@ -312,6 +315,7 @@ TreeNode* gDI(TreeNode* head, filmDB* diary) // Editing DB work
             filmData->monthWatched = answers[lastEntry]->monthWatched;
             filmData->dateWatched = answers[lastEntry]->dateWatched;
 
+            freeArray(answers);
         }
 
         head->right = gDI(head->right, diary) ;

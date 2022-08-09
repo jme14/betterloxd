@@ -19,7 +19,7 @@ void initListNode(filmData* node, char* fileLine)
     node->year = strtol(translator, NULL, 10);
 }
 
-filmData** listFileReader( char* fileLocation )
+filmData** listFileReader( char* fileLocation )//MUST BE FREED!!!
 {
     filmData** nodeArray = NULL;
 
@@ -54,18 +54,19 @@ filmData** listFileReader( char* fileLocation )
 
             initListNode(nodeArray[i], fileLine);
         }
+        free(counts);
     }
     return nodeArray;
 
 }
 
-int* getListFileLineCount(FILE* fp)
+int* getListFileLineCount(FILE* fp)//NEEDS FREEING
 {
     char dummy[MAXLENGTH];
     int count = 0;
     int deleteCount = 1;
 
-    int* twoCounts = malloc(sizeof(int)*2);
+    int* twoCounts = malloc(sizeof(int)*2);//FREED
 
     fgets( dummy, MAXLENGTH, fp );
 

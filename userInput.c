@@ -9,13 +9,22 @@ int getChoice ()
 
     fgets(response, 100, stdin);
 
-    if ( strcmp(response, "exit")  == 0)
+    char exitChecker[5];
+    for (int i = 0 ; i < 4 ; i++)
+    {
+       exitChecker[i] = response[i];
+    }
+    exitChecker[4] = '\0';
+
+    if ( strcmp(exitChecker, "exit")  == 0)
     {
         puts("Goodbye!");
-        exit(0);
+        return -1;
     }
-
-    return strtol(response, NULL, 10);
+    else
+    {
+        return strtol(response, NULL, 10);
+    }
 }
 
 char* getPrompt() //REQUIRES FREEING RETURNED ITEM

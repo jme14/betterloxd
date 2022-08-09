@@ -24,6 +24,7 @@ void searchAll(char* listTitle, int searchType, mNode* menuNode)
                 {
                     printFilmData(foundFilm[i]);
                 }
+                freeArray(foundFilm);
             }
             else
             {
@@ -37,22 +38,23 @@ void searchAll(char* listTitle, int searchType, mNode* menuNode)
             char* finder = getPrompt();
 
             printf("Looking for film of title %s\n", finder);
-            filmData** foundFilm2 = findByTitle(finder, DB);
+            filmData** foundFilm2 = findByTitle(finder, DB);//FREED
 
             if ( foundFilm2 != NULL )
             {
                 printf("%d entries found of that title\n", getArraySize(foundFilm2));
 
-                if ( getArraySize(foundFilm2) == 0)
-                {
-                    puts("Here's a guess for what you meant...");
-                    foundFilm2 = findByTitle(foundFilm2[0]->title, DB);
-                }
+                /* if ( getArraySize(foundFilm2) == 0) */
+                /* { */
+                /*     puts("Here's a guess for what you meant..."); */
+                /*     foundFilm2 = findByTitle(foundFilm2[0]->title, DB); */
+                /* } */
 
                 for ( int i = 0 ; i < getArraySize(foundFilm2) ; i++)
                 {
                     printFilmData(foundFilm2[i]);
                 }
+                freeArray(foundFilm2);
 
             }
         }
@@ -78,6 +80,7 @@ void searchAll(char* listTitle, int searchType, mNode* menuNode)
                 {
                     printFilmData(foundFilm2[i]);
                 }
+                freeArray(foundFilm2);
             }
         }
     }

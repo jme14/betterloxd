@@ -7,6 +7,7 @@
 void freeAll(mNode* menuNode);
 
 void freeTree(TreeNode* head);
+void freeTreeLL(TreeNode* head);
 void freeLL(LLNode* head);
 void freeFilmDB(filmDB DB);
 

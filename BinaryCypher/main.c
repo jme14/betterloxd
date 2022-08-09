@@ -45,7 +45,7 @@ long getMenuChoices()
 
     }
 
-    int* choices = malloc(sizeof(int)*choiceCount+sizeof(int));
+    int* choices = malloc(sizeof(int)*choiceCount+sizeof(int));//FREED
     choices[0] = choiceCount;
     choices++;
 
@@ -54,11 +54,15 @@ long getMenuChoices()
         choices[i] = storedOptions[i];
     }
 
-    long item = returnIntegerFromBinaryString(createBinaryString(choices));
+    char* binaryString = createBinaryString(choices);
+    long item = returnIntegerFromBinaryString(binaryString);
+
+    free(binaryString);
+    freeArray(choices);
     return item;
 }
 
-char* createBinaryString(int* choices)
+char* createBinaryString(int* choices)//NEEDS TO BE FREED
 {
     // this function collects an array of integers corresponding to the menu.txt file and creates a binary string from the answers
     int size = getArraySize(choices);
@@ -100,7 +104,7 @@ long returnIntegerFromBinaryString(char* binaryString)
 
 
 
-char* dTOb(long dec) //returns a BACKWARD binary sequence based on the provided number
+char* dTOb(long dec)//NEEDS TO BE FREED //returns a BACKWARD binary sequence based on the provided number
 // THIS IS THE FUNCTION USED BY OTHER FUNCTIONS TO INTERPRET INTEGER GIVEN BY USER
 {
     int tempBin[64];

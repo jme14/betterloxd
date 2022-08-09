@@ -22,12 +22,14 @@ int getDirectorySize(char* directory)
 
     return directorySize;
 }
+
 listDirectoryData getListDirectoryData(char* directory)
 {
 
     listDirectoryData lDD;
     lDD.listlistCount = getDirectorySize("/Users/treywilliams/Local Files/My Stuff/Summer2022/CSpractice/BinaryTrees/lbData/lists/");
-    lDD.listlist = malloc(sizeof(listItems)*lDD.listlistCount);
+
+    lDD.listlist = malloc(sizeof(listItems)*lDD.listlistCount);//FREED
 
     DIR* dP = opendir(directory);
     struct dirent* currentFile = readdir(dP);
@@ -86,8 +88,7 @@ char* getListFileByIndex(listDirectoryData lDD, int index)
     }
 
 
-
-    char* listTitle1 = malloc(sizeof(char)*(mallochelper));
+    char* listTitle1 = malloc(sizeof(char)*(mallochelper));//FREED
 
     listTitle1[mallochelper-1] = '\0';
 

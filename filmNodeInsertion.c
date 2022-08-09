@@ -6,10 +6,12 @@ TreeNode* insertNodeByYear(TreeNode* head, TreeNode* const newFilm, int year) //
     if ( head == NULL ) // this takes place when the item is found and the head isn't being established
     {
         head = newFilm;
-        //head->object = newFilm->object;
+        head->object = newFilm->object;
         head->left = NULL;
         head->right = NULL;
         head->next = NULL;
+
+        //free( newFilm );
     }
     else
     {
@@ -38,44 +40,18 @@ TreeNode* insertNodeByYear(TreeNode* head, TreeNode* const newFilm, int year) //
 
             if ( fD->year < year ) //when new film year has a GREATER value than current film
             {
-                if ( head->right != NULL )
-                {
-                    if ( head->right->right != NULL )
-                    {
-                        if ( head->right == head->right->right )
-                        {
-                            puts("FATAL FLAW: infinite right loop in NodeByYear");
-                            exit(0);
-                        }
-                    }
-                }
-
                 head->right = insertNodeByYear(head->right, newFilm, year);
             }
 
             else if ( fD->year > year )
             {
-                if ( head->left != NULL )
-                {
-                    if ( head->left->left!= NULL )
-                    {
-                        if ( head->left == head->left->left)
-                        {
-                            puts("FATAL FLAW: infinite left loop in NodeByYear");
-                            exit(0);
-                        }
-                    }
-                }
-
                 head->left = insertNodeByYear(head->left, newFilm, year);
             }
             else if ( fD->year == year )
             {
                 insertLL(head, newFilm);
-
                 //printf("LL size now %d\n", findLLCount(head));
             }
-
 
             else
             {
