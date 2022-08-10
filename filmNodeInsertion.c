@@ -135,6 +135,8 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
         head->right = NULL;
         head->left = NULL;
         //puts("Ah, found the spot!");
+        //
+        printf("head->object is stored at %p\n", head->object);
 
     }
 
@@ -177,36 +179,10 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
                 //printf("head->left is %p\n", head->left);
                 //printf("head->right is %p\n", head->right);
 
-                if ( head->right != NULL )
-                {
-                    if ( head->right->right != NULL )
-                    {
-                        if ( head->right == head->right->right )
-                        {
-                            puts("RIGHT HERE IS THE INFINITE LOOP CREATED");
-                        }
-                    }
-                }
             }
             else if (strcmp( (fD->title), title) < 0 )
             {
                 //printf("-");
-                if ( head->right != NULL )
-                {
-                    if ( head->right->right != NULL )
-                    {
-                        fD = head->right->right->object;
-
-                       // printf("Going right TWICE is %s\n", fD->title);
-
-                        if ( head->right->right == head->right->right->right )
-                        {
-                            puts("FATAL FLAW: infinite righter loop");
-                            exit(0);
-                        }
-                    }
-                }
-
                 //printf("Going RIGHT %d\n", strcmp( (fD->title), title ));
                 head->right = insertNodeByTitle(head->right, newFilm, title);
 
@@ -214,16 +190,6 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
                 //printf("head->left is %p\n", head->left);
                 //printf("head->right is %p\n", head->right);
 
-                if ( head->right != NULL )
-                {
-                    if ( head->right->right != NULL )
-                    {
-                        if ( head->right == head->right->right )
-                        {
-                            puts("RIGHT HERE IS THE INFINITE LOOP CREATED");
-                        }
-                    }
-                }
             }
             else if ( strcmp( (fD->title), title ) == 0 )
             {

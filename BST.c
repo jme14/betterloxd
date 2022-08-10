@@ -72,6 +72,8 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
     newTitleNode->next = NULL;
     newTitleNode->object = newFilm;
     printf("newTitleNode->object is pointing to %p\n", newTitleNode->object);
+    filmData* headData = newTitleNode->object;
+    printf("the head contains the film with title %s\n", headData->title);
 
     newYearNode->left = NULL;
     newYearNode->right = NULL;
@@ -169,6 +171,9 @@ void insertLL(TreeNode* head, TreeNode* tail) // DB initialization
 /* This is for dealing with duplicates at BSTs, NOT for insertion of finished DBs  */
 // CHECKED FOR FREEING
 {
+    puts("MEM LEAK POSSIBLE HERE");
+    filmData* currentNode = tail->object;
+    printf("head is at %p and tail is at %p with the data on the tail at %p as well as the title at %p\n", head, tail, tail->object, currentNode->title);
     if ( head->next == NULL )
     {
         head->next = tail;
@@ -218,6 +223,8 @@ filmDB uploadList(char* listTitle) // Creating DB work
  {
     filmDB listDB = initFilmDB();
     strcpy(listDB.identifier, listTitle);
+
+    printf("list title is stored at %p\n", listTitle);
 
     //filmData** myFilms = fileReader
     filmData** myFilms = listFileReader(listTitle);//NEEDS TO BE FREED

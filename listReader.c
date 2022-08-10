@@ -30,6 +30,7 @@ filmData** listFileReader( char* fileLocation )//MUST BE FREED!!!
         puts ("FATAL ERROR: no file found of that name");
         fileLocation = getPrompt();
         fp = fopen(fileLocation, "r");
+        free(fileLocation);
     }
     if ( fp!=NULL )
     {
@@ -55,6 +56,7 @@ filmData** listFileReader( char* fileLocation )//MUST BE FREED!!!
             initListNode(nodeArray[i], fileLine);
         }
         free(counts);
+        fclose(fp);
     }
     return nodeArray;
 

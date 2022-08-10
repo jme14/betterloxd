@@ -31,36 +31,61 @@ void freeAll(mNode* menuNode)
 
 // BST.c
 
-void freeTree(TreeNode* head) // FREES DATA STRUCTURE TREENODE
+void freeTree(TreeNode* head)
 {
     if ( head != NULL )
     {
-        puts("Going left...");
         freeTree(head->left);
-        puts("Going right...");
         freeTree(head->right);
-        puts("About to start freeing!");
         if ( head != NULL )
         {
             if ( head->next != NULL )
             {
                 freeTreeLL(head->next);
-                free(head->object);
-                free(head);
+                puts("outside freeTreeLL");
             }
-
+            free(head);
         }
+
     }
-    puts("exiting!");
+}
+void freeAndClearTree(TreeNode* head) // FREES DATA STRUCTURE TREENODE
+{
+    if ( head != NULL )
+    {
+        freeAndClearTree(head->left);
+        freeAndClearTree(head->right);
+        puts("Down the rabit hole");
+        if ( head != NULL )
+        {
+            if ( head->next != NULL )
+            {
+                freeTreeLL(head->next);
+                puts("outside freeTreeLL");
+            }
+            filmData* currentNode = head->object;
+            printf("about to free node with title %s and location %p\n", currentNode->title, currentNode);
+            if ( currentNode->title[0] != '\0' )
+            {
+                free(head->object);
+            }
+            free(head);
+        }
+
+    }
+    puts("Coming up!");
 }
 void freeTreeLL(TreeNode* head)
 {
     puts("inside freeTreeLL");
     if ( head->next != NULL )
     {
+        puts("Inside freeTreeLL if statement");
         freeTreeLL(head->next);
     }
+    puts("outside that statement");
     free(head);
+    puts("Leaving function");
 }
 void freeLL(LLNode* head) // FREES A LINKED LIST DATA STRUCTURE (ALL OF THE LLNode* TYPE)
 {
@@ -68,15 +93,17 @@ void freeLL(LLNode* head) // FREES A LINKED LIST DATA STRUCTURE (ALL OF THE LLNo
     {
         puts("In freeLL if");
         freeLL(head->next);
+        //free(head->object);
         free(head);
     }
 }
 void freeFilmDB(filmDB DB)
 {
     printf("freeing filmDB titled %s\n", DB.identifier);
-    freeTree(DB.yearSort);
+
+    freeAndClearTree(DB.titleSort);
     freeTree(DB.ratingSort);
-    freeTree(DB.titleSort);
+    freeTree(DB.yearSort);
 }
 
 // menus.c -- CHECKED

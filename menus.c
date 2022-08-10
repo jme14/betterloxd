@@ -315,7 +315,7 @@ menuChoice* getMenuChoiceScreen(long code)
         {
             printf("%d. %s\n", mChoice[i].index, mChoice[i].title);
         }
-
+        fclose(fp);
     }
     free(menuChoiceFinder);
     return mChoice;

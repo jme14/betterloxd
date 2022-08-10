@@ -170,6 +170,7 @@ filmData** fileReader(char* fileLocation)//NEEDS TO BE FREED
             //puts("Entering initNode...");
             initNode(tokens, nodeArray[i], fileLine);
         }
+        fclose(fp);
 
     }
     return nodeArray;

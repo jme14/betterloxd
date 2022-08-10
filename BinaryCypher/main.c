@@ -27,6 +27,7 @@ void readMenuText()
     }
 
     rewind(fp);
+    fclose(fp);
 }
 
 long getMenuChoices()
