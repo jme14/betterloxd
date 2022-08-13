@@ -36,7 +36,7 @@ filmData** listFileReader( char* fileLocation )//MUST BE FREED!!!
     {
         int* counts = getListFileLineCount(fp);
 
-        int* sizer = malloc((sizeof(filmData*)*counts[0]) + sizeof(int));
+        int* sizer = malloc((sizeof(filmData*)*counts[0]) + sizeof(int));//NOT HERE
         sizer[0] = counts[0];
         sizer++;
         nodeArray = (filmData**) sizer;
@@ -50,7 +50,7 @@ filmData** listFileReader( char* fileLocation )//MUST BE FREED!!!
         }
         for ( int i = 0 ; i < counts[0] ; i++ )
         {
-            nodeArray[i] = malloc(sizeof(filmData));
+            nodeArray[i] = malloc(sizeof(filmData));//FREED; NOT HERE
             fgets(fileLine, MAXLENGTH, fp);
 
             initListNode(nodeArray[i], fileLine);
@@ -68,7 +68,8 @@ int* getListFileLineCount(FILE* fp)//NEEDS FREEING
     int count = 0;
     int deleteCount = 1;
 
-    int* twoCounts = malloc(sizeof(int)*2);//FREED
+    int* twoCounts = malloc(sizeof(int)*2);//NEAR HERE
+    printf("two counts is stored at %p\n", twoCounts);
 
     fgets( dummy, MAXLENGTH, fp );
 

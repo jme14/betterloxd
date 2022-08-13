@@ -29,7 +29,7 @@ listDirectoryData getListDirectoryData(char* directory)
     listDirectoryData lDD;
     lDD.listlistCount = getDirectorySize("/Users/treywilliams/Local Files/My Stuff/Summer2022/CSpractice/BinaryTrees/lbData/lists/");
 
-    lDD.listlist = malloc(sizeof(listItems)*lDD.listlistCount);//FREED
+    lDD.listlist = malloc(sizeof(listItems)*lDD.listlistCount);//FREED; NOT HERE
 
     DIR* dP = opendir(directory);
     struct dirent* currentFile = readdir(dP);

@@ -5,12 +5,15 @@
 #define TOTALMENUS 5
 mNode* initMenu()
 {
-    mNode* menuNode = malloc(sizeof(mNode));
+    mNode* menuNode = malloc(sizeof(mNode));//NOT HERE FOR 1 LIST
+    //printf("menuNode is stored %p\n", menuNode);
     strcpy(menuNode->screen, "Main Menu");
-    menuNode->head = malloc(sizeof(LLNode*));
+    //menuNode->head = malloc(sizeof(LLNode*));
+    //printf("menuNode->head is stored %p\n", menuNode->head);
     menuNode->size = 0;
 
-    LLNode* permaHead = malloc(sizeof(LLNode));
+    LLNode* permaHead = malloc(sizeof(LLNode));//NOT HERE FOR 1 LIST
+    //printf("permahead is stored at %p\n", permaHead);
     permaHead->next = NULL;
     permaHead->object = NULL;
 
@@ -250,7 +253,7 @@ mNode* menu(mNode* menuNode) // menu work
     return menuNode;
 }
 
-menuChoice* getMenuChoiceScreen(long code)
+menuChoice* getMenuChoiceScreen(long code)//REQUIRES FREEING
     // MUST BE FREED AFTER GETTING THE REQUIRED INFORMATION!!!
     // checked for mem leaks
 {
@@ -286,6 +289,7 @@ menuChoice* getMenuChoiceScreen(long code)
         rewind(fp);
 
         int* mChoiceSetter = malloc(sizeof(menuChoice)*choiceSize+sizeof(int));
+        printf("mChoiceSetter is here: %p\n", mChoiceSetter);
         mChoiceSetter[0] = choiceSize;
         mChoiceSetter++;
         mChoice = (menuChoice*) mChoiceSetter;
@@ -341,6 +345,7 @@ mNode* exitMenuSection(mNode* menuNode, menuChoice* mChoice, int choiceIndex)
 {
     if ( choiceIndex == -1 )
     {
+        freeMenuChoice(mChoice);
         freeAll(menuNode);
     }
     else

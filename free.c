@@ -21,7 +21,10 @@ void freeAll(mNode* menuNode)
 
     // THE LAST PART OF THIS FUNCTION (freeing the menuNode itself)
     puts("Freeing menu node now");
-    //free(menuNode->head); //might cause a seg or something
+    if ( menuNode->head != NULL )
+    {
+        free(*menuNode->head);
+    }
     free(menuNode);
 
     menuNode = NULL;
@@ -89,12 +92,12 @@ void freeTreeLL(TreeNode* head)
 }
 void freeLL(LLNode* head) // FREES A LINKED LIST DATA STRUCTURE (ALL OF THE LLNode* TYPE)
 {
-    if ( head != NULL )
+    if ( head != NULL && head->next != NULL )
     {
         puts("In freeLL if");
-        freeLL(head->next);
+        freeLL(head->next->next);
         //free(head->object);
-        free(head);
+        free(head->next);
     }
 }
 void freeFilmDB(filmDB DB)

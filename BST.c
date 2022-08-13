@@ -171,9 +171,9 @@ void insertLL(TreeNode* head, TreeNode* tail) // DB initialization
 /* This is for dealing with duplicates at BSTs, NOT for insertion of finished DBs  */
 // CHECKED FOR FREEING
 {
-    puts("MEM LEAK POSSIBLE HERE");
-    filmData* currentNode = tail->object;
-    printf("head is at %p and tail is at %p with the data on the tail at %p as well as the title at %p\n", head, tail, tail->object, currentNode->title);
+    //puts("MEM LEAK POSSIBLE HERE");
+    //filmData* currentNode = tail->object;
+    //printf("head is at %p and tail is at %p with the data on the tail at %p as well as the title at %p\n", head, tail, tail->object, currentNode->title);
     if ( head->next == NULL )
     {
         head->next = tail;

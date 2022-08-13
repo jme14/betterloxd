@@ -29,7 +29,7 @@ int getChoice ()
 
 char* getPrompt() //REQUIRES FREEING RETURNED ITEM
 {
-    char* finder = malloc(sizeof(char)*300);
+    char* finder = malloc(sizeof(char)*300);//NOT HERE FOR JUST 1 LIST
     fgets(finder, 300, stdin);
 
     for ( int i = 0 ; i < 300 ; i++ )

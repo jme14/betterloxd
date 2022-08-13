@@ -114,6 +114,7 @@ filmData** fBTitle(char* title, TreeNode* node) // Searching Function
             TreeNode* searcher = node;
 
             int * sizer = malloc(sizeof(filmData*)*(count+1)+sizeof(int));
+            //printf("sizer is located at %p\n", sizer);
             sizer[0] = count+1;
             sizer++;
 
