@@ -134,9 +134,10 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
         //head->object = newFilm->object;
         head->right = NULL;
         head->left = NULL;
+        head->next = NULL;
         //puts("Ah, found the spot!");
         //
-        printf("head->object is stored at %p\n", head->object);
+        //printf("head->object is stored at %p\n", head->object);
 
     }
 
@@ -149,7 +150,7 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
             head->object = newFilm->object;
             head->right = NULL;
             head->left = NULL;
-
+            head->next = NULL;
             //printf("DONE! Head is at %p\n", newFilm);
             free ( newFilm );
         }
@@ -193,6 +194,8 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
             }
             else if ( strcmp( (fD->title), title ) == 0 )
             {
+                filmData* theFilm = newFilm->object;
+                printf("the film is stored at %p\n", theFilm);
                 insertLL(head, newFilm);
             }
             else

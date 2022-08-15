@@ -29,29 +29,32 @@ filmDB initFilmDB() // DB manipulation
     yearSortHead->object = NULL;
     yearSortHead->left = NULL;
     yearSortHead->right = NULL;
+    yearSortHead->next = NULL;
 
     TreeNode* ratingSortHead = malloc(sizeof(TreeNode));
 
     ratingSortHead->object = NULL;
     ratingSortHead->left = NULL;
     ratingSortHead->right = NULL;
+    ratingSortHead->next = NULL;
 
     TreeNode* titleSortHead = malloc(sizeof(TreeNode));
 
     titleSortHead->object = NULL;
     titleSortHead->left = NULL;
     titleSortHead->right = NULL;
+    titleSortHead->next = NULL;
 
     filmDB.yearSort = yearSortHead;
     filmDB.ratingSort = ratingSortHead;
     filmDB.titleSort = titleSortHead;
 
-
     if ( filmDB.titleSort == NULL )
     {
         puts("Improper initialization of titleSort");
     }
-    filmDB.size = 0;
+    filmDB.size = malloc(sizeof(int));
+    printf("I HAVE NOT FREED %p\n", filmDB.size);
     filmDB.error = 0;
 
     return filmDB;
@@ -63,17 +66,20 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
     // CHECKED FOR FREEING
 {
     TreeNode* newTitleNode = malloc(sizeof(TreeNode));
+    printf("newTitleNode is %p\n", newTitleNode);
     TreeNode* newYearNode = malloc(sizeof(TreeNode));
+    printf("newYearNode is %p\n", newYearNode);
     TreeNode* newRatingNode = malloc(sizeof(TreeNode));
+    printf("newRatingNode is %p\n", newRatingNode);
 
 
     newTitleNode->left = NULL;
     newTitleNode->right = NULL;
     newTitleNode->next = NULL;
     newTitleNode->object = newFilm;
-    printf("newTitleNode->object is pointing to %p\n", newTitleNode->object);
-    filmData* headData = newTitleNode->object;
-    printf("the head contains the film with title %s\n", headData->title);
+    //printf("newTitleNode->object is pointing to %p\n", newTitleNode->object);
+    //filmData* headData = newTitleNode->object;
+    //printf("the head contains the film with title %s\n", headData->title);
 
     newYearNode->left = NULL;
     newYearNode->right = NULL;
@@ -103,6 +109,8 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
         /* puts("\n------\n"); */
         /* traverseTree(filmDB.yearSort, "yearSort"); */
         /* puts("\n------\n"); */
+
+        (*filmDB.size)++;
     }
     else
     {

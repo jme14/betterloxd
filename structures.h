@@ -70,7 +70,7 @@ typedef struct filmDB
     TreeNode* yearSort;
     TreeNode* ratingSort;
     TreeNode* titleSort;
-    int size;
+    int* size;
     int error;
 } filmDB; // this is storing a collection of films and including numerous ways of sorting them
 
