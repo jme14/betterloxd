@@ -36,10 +36,11 @@ void freeAll(mNode* menuNode)
 //
 void printAddKeep ( addKeep aK )
 {
+    printf("*aK.size is %d and *aK.FDsize is %d\n", *aK.size, *aK.FDsize);
     for ( int i = 0 ; i < *aK.size ; i++ )
     {
         printf("aK.addressArray[%d] = %p\n", i, aK.addressArray[i]);
-        if ( i != *aK.size-1 )
+        if ( i == 0 || ( i != *aK.FDsize-1 && i != *aK.FDsize*2-1 && i != *aK.FDsize*3-1  ) ) /// THIS IS REALLY STUPID AND I DONT UNDERSTAND THIS
         {
             free(aK.addressArray[i]);
         }
@@ -236,11 +237,11 @@ void freeFilmDB(filmDB DB)
     printf("I HAVE NOT FREED %p OR %p OR %p OR %p\n", addressKeeper.addressArray, addressKeeper.FDaddressArray, addressKeeper.size, addressKeeper.FDsize);
 
     freeAndClearTree(DB.titleSort, addressKeeper);
-    //freeAndClearTree(DB.ratingSort, addressKeeper);
-    //freeAndClearTree(DB.yearSort, addressKeeper);
+    freeAndClearTree(DB.ratingSort, addressKeeper);
+    freeAndClearTree(DB.yearSort, addressKeeper);
 
-    //free(DB.yearSort);
-    //free(DB.ratingSort);
+    free(DB.yearSort);
+    free(DB.ratingSort);
     free(DB.titleSort);
 
     printAddKeep(addressKeeper);

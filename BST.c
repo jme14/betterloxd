@@ -24,19 +24,19 @@ filmDB initFilmDB() // DB manipulation
 {
     filmDB filmDB;
 
-    /* TreeNode* yearSortHead = malloc(sizeof(TreeNode)); */
+    TreeNode* yearSortHead = malloc(sizeof(TreeNode));
 
-    /* yearSortHead->object = NULL; */
-    /* yearSortHead->left = NULL; */
-    /* yearSortHead->right = NULL; */
-    /* yearSortHead->next = NULL; */
+    yearSortHead->object = NULL;
+    yearSortHead->left = NULL;
+    yearSortHead->right = NULL;
+    yearSortHead->next = NULL;
 
-    /* TreeNode* ratingSortHead = malloc(sizeof(TreeNode)); */
+    TreeNode* ratingSortHead = malloc(sizeof(TreeNode));
 
-    /* ratingSortHead->object = NULL; */
-    /* ratingSortHead->left = NULL; */
-    /* ratingSortHead->right = NULL; */
-    /* ratingSortHead->next = NULL; */
+    ratingSortHead->object = NULL;
+    ratingSortHead->left = NULL;
+    ratingSortHead->right = NULL;
+    ratingSortHead->next = NULL;
 
     TreeNode* titleSortHead = malloc(sizeof(TreeNode));
 
@@ -45,8 +45,8 @@ filmDB initFilmDB() // DB manipulation
     titleSortHead->right = NULL;
     titleSortHead->next = NULL;
 
-    //filmDB.yearSort = yearSortHead;
-    //filmDB.ratingSort = ratingSortHead;
+    filmDB.yearSort = yearSortHead;
+    filmDB.ratingSort = ratingSortHead;
     filmDB.titleSort = titleSortHead;
 
     if ( filmDB.titleSort == NULL )
@@ -66,10 +66,10 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
 {
     TreeNode* newTitleNode = malloc(sizeof(TreeNode));
     printf("newTitleNode is %p\n", newTitleNode);
-    //TreeNode* newYearNode = malloc(sizeof(TreeNode));
-    //printf("newYearNode is %p\n", newYearNode);
-    //TreeNode* newRatingNode = malloc(sizeof(TreeNode));
-    //printf("newRatingNode is %p\n", newRatingNode);
+    TreeNode* newYearNode = malloc(sizeof(TreeNode));
+    printf("newYearNode is %p\n", newYearNode);
+    TreeNode* newRatingNode = malloc(sizeof(TreeNode));
+    printf("newRatingNode is %p\n", newRatingNode);
 
 
     /* all different tree nodes point to the same object  */
@@ -82,23 +82,24 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
     //filmData* headData = newTitleNode->object;
     //printf("the head contains the film with title %s\n", headData->title);
 
-    /* newYearNode->left = NULL; */
-    /* newYearNode->right = NULL; */
-    /* newYearNode->next = NULL; */
-    /* newYearNode->object = newFilm; */
+    newYearNode->left = NULL;
+    newYearNode->right = NULL;
+    newYearNode->next = NULL;
+    newYearNode->object = newFilm;
 
-    /* newRatingNode->left = NULL; */
-    /* newRatingNode->right = NULL; */
-    /* newRatingNode->next = NULL; */
-    /* newRatingNode->object = newFilm; */
+    newRatingNode->left = NULL;
+    newRatingNode->right = NULL;
+    newRatingNode->next = NULL;
+    newRatingNode->object = newFilm;
 
     if ( newTitleNode != NULL && /*newYearNode != NULL &&*/ newFilm != NULL) //malloc checking
     {
         filmDB.titleSort = insertNodeByTitle(filmDB.titleSort, newTitleNode, newFilm->title);
 
-        //filmDB.yearSort = insertNodeByYear(filmDB.yearSort, newYearNode, newFilm->year);
+        filmDB.yearSort = insertNodeByYear(filmDB.yearSort, newYearNode, newFilm->year);
 
-        //filmDB.ratingSort = insertNodeByRating(filmDB.ratingSort, newRatingNode, newFilm->rating);
+        filmDB.ratingSort = insertNodeByRating(filmDB.ratingSort, newRatingNode, newFilm->rating);
+
 
         (*filmDB.size)++; //once the new tree nodes are inserted in the corresponding trees, increment the database size
     }
