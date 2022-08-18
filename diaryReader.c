@@ -129,6 +129,9 @@ void initNode(int tokens, filmData* node, char* fileLine)
 
 filmData** fileReader(char* fileLocation)//NEEDS TO BE FREED
     /* This function reads the diary */
+    // USES
+    // -- countCommaTokens
+    // -- initNode
 {
     filmData** nodeArray = NULL;
     FILE* fp = fopen(fileLocation, "r");
@@ -159,8 +162,13 @@ filmData** fileReader(char* fileLocation)//NEEDS TO BE FREED
             //printf("%d ", i);
             nodeArray[i] = malloc(sizeof(filmData));
             fgets(fileLine, MAXLENGTH, fp);
+            printf("nodeArray[%d] is stored at %p\n",i, nodeArray[i]);
 
-            //printf("fileLine is %s\n", fileLine);
+            if ( i == count-1 )
+            {
+                printf("fileLine is %s\n", fileLine);
+            }
+
 
             //puts("Entering commaCountTokens...");
             tokens = countCommaTokens(fileLine);

@@ -2,7 +2,6 @@
 
 TreeNode* insertNodeByYear(TreeNode* head, TreeNode* const newFilm, int year) // DB initialization
 {
-
     if ( head == NULL ) // this takes place when the item is found and the head isn't being established
     {
         head = newFilm;
@@ -11,6 +10,7 @@ TreeNode* insertNodeByYear(TreeNode* head, TreeNode* const newFilm, int year) //
         head->right = NULL;
         head->next = NULL;
 
+        printf("address of newFilm->object is %p\n", newFilm->object);
         //free( newFilm );
     }
     else
@@ -23,6 +23,7 @@ TreeNode* insertNodeByYear(TreeNode* head, TreeNode* const newFilm, int year) //
             head->right = NULL;
             head->next = NULL;
 
+            printf("address of newFilm is %p\n", newFilm->object);
             free( newFilm );
         }
         else
@@ -114,11 +115,9 @@ TreeNode* insertNodeByRating(TreeNode* head, TreeNode* const newFilm, float rati
 }
 TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title) // DB initialization
 {
-    // note that title is a pointer to an array of characters, which gets mallocly created
-    // also note that newFilm is the newFilm NODE
-    //
-
-    //puts("FALLING");
+    /* TreeNode* head : the top of the subtree being looked at
+     * TreeNode* newFilm : the next tree node to be inserted
+     * char* const title : the title of the new film node object */
 
     if ( title == NULL )
     {
@@ -126,76 +125,42 @@ TreeNode* insertNodeByTitle(TreeNode* head, TreeNode* newFilm, char* const title
         exit(0);
     }
 
-    if ( head == NULL ) //this happens when the previously passed head->right or left is NULL, meaning we have reached the end of a tree!
+    if ( head == NULL ) // when there is NO REMAINING SUBTREE, newFilm can be inserted
     {
-        //printf("Changing... ");
-        head = newFilm;
-        // newFilm should have ALLL the below attributes
-        //head->object = newFilm->object;
-        head->right = NULL;
-        head->left = NULL;
-        head->next = NULL;
-        //puts("Ah, found the spot!");
-        //
-        //printf("head->object is stored at %p\n", head->object);
-
+        //printf("found NEW data, data now at %p\n", newFilm);
+        head = newFilm; //head is changed from pointing to NULL to pointing to the new tree node!
     }
-
-    else
+    else // when head is NOT NULL
     {
         if ( head->object == NULL ) //this should only happen on the first run through
         {
-            //printf("HEAD ESTABLISHING...");
-
-            head->object = newFilm->object;
-            head->right = NULL;
-            head->left = NULL;
-            head->next = NULL;
-            //printf("DONE! Head is at %p\n", newFilm);
-            free ( newFilm );
+            head->object = newFilm->object; //extract item from the new node
+            free ( newFilm ); //free new node; all the information has been given to head
         }
 
-        else //this should always happen if we have not found a node's proper place
+        else // when NOT the head of the full tree AND not at the end of a tree
         {
-            filmData* fD = head->object; // this should only be entered when neither head->object nor head is NULL
+            filmData* fD = head->object; //used for comparing objects
 
-            if ( head->object == NULL )
+            if ( head->object == NULL ) //error checking
             {
                 puts("FATAL ERROR: no film attached");
                 exit(0);
             }
 
-            //printf("Comparing with head %s\n", fD->title);
-            //printf("head->left is %p\n", head->left);
-            //printf("head->right is %p\n", head->right);
-
-            if (strcmp( (fD->title), title) > 0)
+            if (strcmp( (fD->title), title) > 0) //title less than
             {
-                //printf("-");
-                //printf("Going LEFT %d\n", strcmp( (fD->title), title ));
-
                 head->left = insertNodeByTitle(head->left, newFilm, title);
-
-                //printf("After going in on the left with head %s\n", fD->title);
-                //printf("head->left is %p\n", head->left);
-                //printf("head->right is %p\n", head->right);
-
             }
-            else if (strcmp( (fD->title), title) < 0 )
+            else if (strcmp( (fD->title), title) < 0 ) //title greater than
             {
-                //printf("-");
-                //printf("Going RIGHT %d\n", strcmp( (fD->title), title ));
                 head->right = insertNodeByTitle(head->right, newFilm, title);
-
-                //printf("After going in on the right with head %s\n", fD->title);
-                //printf("head->left is %p\n", head->left);
-                //printf("head->right is %p\n", head->right);
-
             }
-            else if ( strcmp( (fD->title), title ) == 0 )
+            else if ( strcmp( (fD->title), title ) == 0 ) //if we find an EXACT MATCH
             {
-                filmData* theFilm = newFilm->object;
-                printf("the film is stored at %p\n", theFilm);
+                //filmData* theFilm = newFilm->object;
+                //printf("the film node is stored at %p\n", theFilm);
+
                 insertLL(head, newFilm);
             }
             else

@@ -33,6 +33,23 @@ void freeAll(mNode* menuNode)
 }
 
 // BST.c
+//
+void printAddKeep ( addKeep aK )
+{
+    for ( int i = 0 ; i < *aK.size ; i++ )
+    {
+        printf("aK.addressArray[%d] = %p\n", i, aK.addressArray[i]);
+        if ( i != *aK.size-1 )
+        {
+            free(aK.addressArray[i]);
+        }
+    }
+    for ( int i = 0 ; i < *aK.FDsize ; i++ )
+    {
+        printf("aK.FDaddressArray[%d] = %p\n", i, aK.FDaddressArray[i]);
+        free(aK.FDaddressArray[i]);
+    }
+}
 int checkAKTN(TreeNode* head, addKeep aK) // this returns 1 if mem has been freed and 0 if it has not
 {
     int bool = 0;
@@ -109,7 +126,7 @@ void freeTree(TreeNode* head, addKeep aK)
 
             if ( !checkAKTN(head, aK) )
             {
-                free(head);
+                //free(head);
                 head = NULL;
             }
         }
@@ -147,13 +164,14 @@ void freeAndClearTree(TreeNode* head, addKeep aK) // FREES DATA STRUCTURE TREENO
 
             if ( !checkAKFD(head->object, aK))
             {
-                free(head->object);
+                printf("about to free object at %p\n", head->object);
+                //free(head->object);
                 head->object = NULL;
             }
             if ( !checkAKTN(head, aK) )
             {
-                printf("about to free %p\n", head);
-                free(head);
+                printf("about to free head at %p\n", head);
+                //free(head);
                 head->object = NULL;
             }
         }
@@ -164,6 +182,7 @@ void freeAndClearTree(TreeNode* head, addKeep aK) // FREES DATA STRUCTURE TREENO
 void freeTreeLL(TreeNode* head, addKeep aK)
 {
     //puts("inside freeTreeLL");
+
     if ( head!= NULL && head->next != NULL )
     {
         freeTreeLL(head->next, aK);
@@ -175,15 +194,15 @@ void freeTreeLL(TreeNode* head, addKeep aK)
 
         if ( !checkAKFD(head->object, aK) )
         {
-            free(head->object);
+            //free(head->object);
             head->object = NULL;
         }
 
         head->object = NULL;
     }
-    if ( !checkAKTN(head->object, aK) )
+    if ( !checkAKTN(head, aK) )
     {
-        free(head);
+        //free(head);
         head = NULL;
     }
 }
@@ -192,7 +211,7 @@ void freeLL(LLNode* head) // FREES A LINKED LIST DATA STRUCTURE (ALL OF THE LLNo
 {
     if ( head != NULL && head->next != NULL )
     {
-        printf("attempting to free what is at %p\n", head);
+        puts("WE IN HERE");
         freeLL(head->next->next);
         //free(head->object);
         free(head->next);
@@ -217,13 +236,14 @@ void freeFilmDB(filmDB DB)
     printf("I HAVE NOT FREED %p OR %p OR %p OR %p\n", addressKeeper.addressArray, addressKeeper.FDaddressArray, addressKeeper.size, addressKeeper.FDsize);
 
     freeAndClearTree(DB.titleSort, addressKeeper);
-    freeAndClearTree(DB.ratingSort, addressKeeper);
-    freeAndClearTree(DB.yearSort, addressKeeper);
+    //freeAndClearTree(DB.ratingSort, addressKeeper);
+    //freeAndClearTree(DB.yearSort, addressKeeper);
 
-    free(DB.yearSort);
-    free(DB.ratingSort);
+    //free(DB.yearSort);
+    //free(DB.ratingSort);
     free(DB.titleSort);
 
+    printAddKeep(addressKeeper);
     free(addressKeeper.addressArray);
     free(addressKeeper.FDaddressArray);
     free(addressKeeper.size);

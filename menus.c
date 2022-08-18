@@ -34,10 +34,9 @@ mNode* menu(mNode* menuNode) // menu work
     //filmDB* DBarray = NULL;
     menuChoice* mChoice = NULL;
 
+    printf("sizeof film node is %ld and treenode is %ld\n", sizeof(filmData), sizeof(TreeNode));
     if ( menuNode != NULL )
     {
-
-    
         if ( strcmp(menuNode->screen, "exit") == 0 )
         {
             puts("Bye!");
@@ -57,7 +56,7 @@ mNode* menu(mNode* menuNode) // menu work
             {
                 mChoice = getMenuChoiceScreen(34);
             }
-            else // if something is uploaded, go to the list editing screen
+            else // if something is uploaded, go offer the list editing screen
             {
                 mChoice = getMenuChoiceScreen(98);
             }
@@ -70,7 +69,7 @@ mNode* menu(mNode* menuNode) // menu work
 
             if ( getDiary(menuNode) == NULL ) //if no diary is present
             {
-                diaryDB = uploadDiary();
+                diaryDB = uploadDiary(); //uploads the diary
             }
             else
             {
