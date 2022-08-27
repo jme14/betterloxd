@@ -1,7 +1,7 @@
 #ifndef FREE_H_
 #define FREE_H_
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "BST.h"
 
 typedef struct aK

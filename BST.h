@@ -5,7 +5,7 @@
 
 
 mNode* menu ( mNode* menuNode );
-LLNode* insertTrueLL ( LLNode* head, void* newObject );
+LLNode* addToDatabaseList( LLNode* head, void* newObject );
 
 filmDB initFilmDB();
 

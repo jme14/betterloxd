@@ -1,7 +1,7 @@
 #ifndef FILMSEARCHING_H_
 #define FILMSEARCHING_H_
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "BST.h"
 
 

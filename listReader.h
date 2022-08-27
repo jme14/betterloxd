@@ -1,7 +1,7 @@
 #ifndef LISTREADER_H_
 #define LISTREADER_H_
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "BST.h"
 #include "LBreader.h"
 

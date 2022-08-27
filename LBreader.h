@@ -3,7 +3,7 @@
 
 #define MAXLENGTH 300
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "BST.h"
 
 int getFileLineCount(FILE* fp);

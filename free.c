@@ -5,25 +5,25 @@
 
 void freeAll(mNode* menuNode)
 {
-    puts("About to free...");
-    LLNode* DBLL = *menuNode->head;
+    //puts("About to free...");
 
-    while ( DBLL->next != NULL )
+    LLNode* DBLL = menuNode->head;
+
+    while ( DBLL != NULL )
     {
-        puts("In while...");
         filmDB* DBgetter = (filmDB*) DBLL->object;
         freeFilmDB(*DBgetter);
         DBLL = DBLL->next;
     }
-    puts("Out of while!");
+    //puts("Out of while!");
 
-    freeLL(*menuNode->head);
+    freeLL(menuNode->head);
 
     // THE LAST PART OF THIS FUNCTION (freeing the menuNode itself)
-    puts("Freeing menu node now");
+    //puts("Freeing menu node now");
     if ( menuNode->head != NULL )
     {
-        free(*menuNode->head);
+        free(menuNode->head);
     }
     free(menuNode);
 
@@ -36,10 +36,10 @@ void freeAll(mNode* menuNode)
 //
 void printAddKeep ( addKeep aK )
 {
-    printf("*aK.size is %d and *aK.FDsize is %d\n", *aK.size, *aK.FDsize);
+    //printf("*aK.size is %d and *aK.FDsize is %d\n", *aK.size, *aK.FDsize);
     for ( int i = 0 ; i < *aK.size ; i++ )
     {
-        printf("aK.addressArray[%d] = %p\n", i, aK.addressArray[i]);
+        //printf("aK.addressArray[%d] = %p\n", i, aK.addressArray[i]);
         if ( i == 0 || ( i != *aK.FDsize-1 && i != *aK.FDsize*2-1 && i != *aK.FDsize*3-1  ) ) /// THIS IS REALLY STUPID AND I DONT UNDERSTAND THIS
         {
             free(aK.addressArray[i]);
@@ -47,7 +47,7 @@ void printAddKeep ( addKeep aK )
     }
     for ( int i = 0 ; i < *aK.FDsize ; i++ )
     {
-        printf("aK.FDaddressArray[%d] = %p\n", i, aK.FDaddressArray[i]);
+        //printf("aK.FDaddressArray[%d] = %p\n", i, aK.FDaddressArray[i]);
         free(aK.FDaddressArray[i]);
     }
 }
@@ -66,7 +66,7 @@ int checkAKTN(TreeNode* head, addKeep aK) // this returns 1 if mem has been free
 
     if ( bool == 0 )
     {
-        printf("NEED %p FREED\n", head);
+        //printf("NEED %p FREED\n", head);
         addTNadd(head, aK);
     }
 
@@ -83,14 +83,14 @@ int checkAKFD(filmData* film, addKeep aK) // this returns 1 if mem has been free
         //printf("HAVE %p STORED\n", aK.FDaddressArray[i]);
         if ( aK.FDaddressArray[i] == film)
         {
-            printf("Matches with %p\n", film);
+            //printf("Matches with %p\n", film);
             bool = 1;
         }
     }
 
     if ( bool == 0 )
     {
-        printf("NEED %p FREED\n", film);
+        //printf("NEED %p FREED\n", film);
         addFDadd(film, aK);
     }
 
@@ -101,13 +101,13 @@ void addTNadd(TreeNode* head, addKeep aK)
 {
     aK.addressArray[*aK.size] = head;
     (*aK.size)++;
-    printf("TN size is now %d\n", *aK.size);
+    //printf("TN size is now %d\n", *aK.size);
 }
 void addFDadd(filmData* film, addKeep aK)
 {
     aK.FDaddressArray[*aK.FDsize] = film;
     (*aK.FDsize)++;
-    printf("FD size is now %d\n", *aK.FDsize);
+    //printf("FD size is now %d\n", *aK.FDsize);
 }
 
 void freeTree(TreeNode* head, addKeep aK)
@@ -138,10 +138,10 @@ void freeAndClearTree(TreeNode* head, addKeep aK) // FREES DATA STRUCTURE TREENO
 {
     if ( head != NULL  )
     {
-        printf("Observing %p\n", head);
+        //printf("Observing %p\n", head);
         if ( head->object != NULL )
         {
-            printf("Observing %p\n", head->object);
+            //printf("Observing %p\n", head->object);
         }
     }
 
@@ -155,23 +155,23 @@ void freeAndClearTree(TreeNode* head, addKeep aK) // FREES DATA STRUCTURE TREENO
         {
             if ( head->next != NULL )
             {
-                printf("About to attempt to free data at %p\n", head->next->object);
+                //printf("About to attempt to free data at %p\n", head->next->object);
                 freeTreeLL(head->next, aK);
                 //puts("outside freeTreeLL");
             }
-            filmData* currentNode = head->object;
-            printf("about to free filmnode with title %s (of location %p) and location %p\n", currentNode->title, currentNode->title, currentNode);
-            printf("also about to attempt to free treenode %p\n", head);
+            //filmData* currentNode = head->object;
+            //printf("about to free filmnode with title %s (of location %p) and location %p\n", currentNode->title, currentNode->title, currentNode);
+            //printf("also about to attempt to free treenode %p\n", head);
 
             if ( !checkAKFD(head->object, aK))
             {
-                printf("about to free object at %p\n", head->object);
+                //printf("about to free object at %p\n", head->object);
                 //free(head->object);
                 head->object = NULL;
             }
             if ( !checkAKTN(head, aK) )
             {
-                printf("about to free head at %p\n", head);
+                //printf("about to free head at %p\n", head);
                 //free(head);
                 head->object = NULL;
             }
@@ -190,8 +190,8 @@ void freeTreeLL(TreeNode* head, addKeep aK)
     }
     if ( head->object != NULL )
     {
-        filmData* currentNode = head->object;
-        printf("About to attempt to free %p with title %s (which has address %p)\n", head->object, currentNode->title, currentNode->title);
+        //filmData* currentNode = head->object;
+        //printf("About to attempt to free %p with title %s (which has address %p)\n", head->object, currentNode->title, currentNode->title);
 
         if ( !checkAKFD(head->object, aK) )
         {
@@ -212,7 +212,7 @@ void freeLL(LLNode* head) // FREES A LINKED LIST DATA STRUCTURE (ALL OF THE LLNo
 {
     if ( head != NULL && head->next != NULL )
     {
-        puts("WE IN HERE");
+        //puts("WE IN HERE");
         freeLL(head->next->next);
         //free(head->object);
         free(head->next);
@@ -225,7 +225,7 @@ void freeFilmDB(filmDB DB)
 
     addKeep addressKeeper;
 
-    printf("size of address keeper is %ld\n", sizeof(addressKeeper));
+    //printf("size of address keeper is %ld\n", sizeof(addressKeeper));
 
     addressKeeper.addressArray = malloc(sizeof(TreeNode*)**DB.size*3);
     addressKeeper.FDaddressArray = malloc(sizeof(filmData*)**DB.size);
@@ -234,7 +234,7 @@ void freeFilmDB(filmDB DB)
 
     *addressKeeper.size = 0;
     *addressKeeper.FDsize = 0;
-    printf("I HAVE NOT FREED %p OR %p OR %p OR %p\n", addressKeeper.addressArray, addressKeeper.FDaddressArray, addressKeeper.size, addressKeeper.FDsize);
+    //printf("I HAVE NOT FREED %p OR %p OR %p OR %p\n", addressKeeper.addressArray, addressKeeper.FDaddressArray, addressKeeper.size, addressKeeper.FDsize);
 
     freeAndClearTree(DB.titleSort, addressKeeper);
     freeAndClearTree(DB.ratingSort, addressKeeper);

@@ -1,5 +1,5 @@
 #include "BST.h"
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "diaryReader.h"
 #include "listReader.h"
 #include "dirReader.h"
@@ -65,11 +65,11 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
     // CHECKED FOR FREEING
 {
     TreeNode* newTitleNode = malloc(sizeof(TreeNode));
-    printf("newTitleNode is %p\n", newTitleNode);
+    //printf("newTitleNode is %p\n", newTitleNode);
     TreeNode* newYearNode = malloc(sizeof(TreeNode));
-    printf("newYearNode is %p\n", newYearNode);
+    //printf("newYearNode is %p\n", newYearNode);
     TreeNode* newRatingNode = malloc(sizeof(TreeNode));
-    printf("newRatingNode is %p\n", newRatingNode);
+    //printf("newRatingNode is %p\n", newRatingNode);
 
 
     /* all different tree nodes point to the same object  */
@@ -111,38 +111,33 @@ int insertNewFilm(filmData* newFilm, filmDB filmDB) // DB initialization
     return filmDB.error;
 }
 
-LLNode* insertTrueLL( LLNode* head, void* newObject) // DB insertion
+LLNode* addToDatabaseList( LLNode* head, void* newObject) // DB insertion
 /* This function inserts a new database into a linked list of all DBs uploaded  */
-    // CHECKED FOR FREEING
 {
-
     if ( head == NULL )
     {
-        // this means this list is empty and we need a new node
+        // there is nothing at this point in the list, so make something
+        LLNode* newDatabaseNode = malloc(sizeof(LLNode));
+        newDatabaseNode->object = newObject;
+        newDatabaseNode->next = NULL;
 
-        LLNode* newNode = malloc(sizeof(LLNode));
-        newNode->next = NULL;
-        newNode->object = newObject;
-
-        head = newNode;
-
-        //printf("Head is pointing to %p\n", head);
-
-        //puts("Inserted object");
+        head = newDatabaseNode;
     }
-
     else if ( head != NULL && head->object == NULL )
     {
-        //puts("At the beginning of the list");
-        //
-        LLNode* newNode = malloc(sizeof(LLNode));
-        head->next = newNode;
+        // this is the first case
         head->object = newObject;
-        newNode->next = NULL;
+        head->next = NULL;
+    }
+    else if ( head != NULL && head->object != NULL )
+    {
+        // this is the case where we need to go deeper
+        head->next = addToDatabaseList(head->next, newObject);
     }
     else
     {
-        head->next = insertTrueLL(head->next, newObject);
+        puts("FATAL ERROR IN ADD TO DATABSE LIST ");
+        exit(0);
     }
     return head;
 }
@@ -211,7 +206,7 @@ filmDB uploadDiary() // DB work
             if ( myFilms[i]->year != 0 )
             {
                 insertNewFilm(myFilms[i], diaryDB); //new film insertion
-                printf("myFilms[%d] is stored at %p\n",i, myFilms[i]);
+//                printf("myFilms[%d] is stored at %p\n",i, myFilms[i]);
             }
             else
             {
@@ -227,16 +222,17 @@ filmDB uploadList(char* listTitle) // Creating DB work
     // CHECKED FOR FREEING
  {
     filmDB listDB = initFilmDB();
-    strcpy(listDB.identifier, listTitle);
+    strcpy(listDB.identifier, listTitle); //gives new list the title of the list on lb
 
-    printf("list title is stored at %p\n", listTitle);
+    //printf("list title is stored at %p\n", listTitle);
 
-    //filmData** myFilms = fileReader
-    filmData** myFilms = listFileReader(listTitle);//NEEDS TO BE FREED
+    filmData** myFilms = listFileReader(listTitle);//NEEDS TO BE FREED ; reads list from data with this title
+    //printf("listFileReader is %p\n", myFilms);
 
     int filmCount = getArraySize(myFilms);
 
     for ( int i = 0  ; i < filmCount ; i++ )
+        // for all list entries do the following
     {
         if ( myFilms[i] == NULL )
         {
@@ -245,7 +241,7 @@ filmDB uploadList(char* listTitle) // Creating DB work
         }
         else
         {
-            if ( myFilms[i]->year != 0 )
+            if ( myFilms[i]->year != 0 ) //as long as films are valid, insert them into the list
             {
                 insertNewFilm(myFilms[i], listDB);
             }
@@ -259,7 +255,7 @@ int removeDB(mNode* menuNode, char* identifier)  //DB Work
     // this function returns 1 if a DB got successfully removed and 0 if no DB was removed
     // CHECKED FOR FREEING
 {
-    LLNode* head = *menuNode->head;
+    LLNode* head = menuNode->head;
 
     if ( head == NULL )
     {
@@ -278,11 +274,11 @@ int removeDB(mNode* menuNode, char* identifier)  //DB Work
         {
             freeFilmDB(*DB);
 
-            if ( *menuNode->head == head ) // if the duplicate is in the beginning...
+            if ( menuNode->head == head ) // if the duplicate is in the beginning...
             {
                 LLNode* headFreer = head;
-                *menuNode->head = head->next;
-                printf("menuNode points to %p and new head points to %p\n", *menuNode->head, head);
+                menuNode->head = head->next;
+                printf("menuNode points to %p and new head points to %p\n", menuNode->head, head);
                 free(headFreer);
             }
             else
@@ -354,7 +350,7 @@ void getDiaryInfo(mNode* menuNode, char* listIdentifier) // Editing DB work
 void printDBlist(mNode* menuNode) // Printing DB
     // CHECKED FOR MEM LEAKS
 {
-    LLNode* head = *menuNode->head;
+    LLNode* head = menuNode->head;
     filmDB* film = NULL;
     for ( int i = 0; head->next != NULL ; i++)
     {
@@ -403,7 +399,7 @@ filmDB* getDB(mNode* menuNode, char* listTitle) // Collect DB
 {
     //puts("WE ARE HERE");
 
-    LLNode* head = *menuNode->head;
+    LLNode* head = menuNode->head;
 
     if ( head == NULL )
     {
@@ -444,7 +440,7 @@ filmDB* getDB(mNode* menuNode, char* listTitle) // Collect DB
 filmDB* getDBbyIndex(mNode* menuNode, int index) // Collect DB by index
     // checked for mem leaks
 {
-    LLNode* finder = *menuNode->head;
+    LLNode* finder = menuNode->head;
     if ( finder != NULL )
     {
         for ( int i = 0 ; i < index ; i++ )
@@ -457,7 +453,7 @@ filmDB* getDBbyIndex(mNode* menuNode, int index) // Collect DB by index
 filmDB* getDiary(mNode* menuNode) //Get DB Work (maybe obsolete function)
     //CHECKED FOR MEM LEAKS
 {
-    LLNode* head = *menuNode->head;
+    LLNode* head = menuNode->head;
 
     if ( head == NULL )
     {

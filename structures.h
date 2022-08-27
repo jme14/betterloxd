@@ -21,7 +21,7 @@ typedef struct llnode
 
 typedef struct mnode
 {
-    LLNode** head;
+    LLNode* head;
     char screen[50];
     int size;
 } mNode;

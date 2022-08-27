@@ -69,7 +69,7 @@ int* getListFileLineCount(FILE* fp)//NEEDS FREEING
     int deleteCount = 1;
 
     int* twoCounts = malloc(sizeof(int)*2);//NEAR HERE
-    printf("two counts is stored at %p\n", twoCounts);
+    //printf("two counts is stored at %p\n", twoCounts);
 
     fgets( dummy, MAXLENGTH, fp );
 

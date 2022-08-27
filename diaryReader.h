@@ -1,7 +1,7 @@
 #ifndef DIARYREADER_H_
 #define DIARYREADER_H_
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "BST.h"
 #include "LBreader.h"
 

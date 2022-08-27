@@ -162,7 +162,7 @@ filmData** fileReader(char* fileLocation)//NEEDS TO BE FREED
             //printf("%d ", i);
             nodeArray[i] = malloc(sizeof(filmData));
             fgets(fileLine, MAXLENGTH, fp);
-            printf("nodeArray[%d] is stored at %p\n",i, nodeArray[i]);
+            //printf("nodeArray[%d] is stored at %p\n",i, nodeArray[i]);
 
             if ( i == count-1 )
             {

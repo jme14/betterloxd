@@ -1,6 +1,7 @@
 #include "menus.h"
 #include "filmSearching.h"
 #include "free.h"
+#include "BST.h"
 
 #define TOTALMENUS 5
 mNode* initMenu()
@@ -12,12 +13,9 @@ mNode* initMenu()
     //printf("menuNode->head is stored %p\n", menuNode->head);
     menuNode->size = 0;
 
-    LLNode* permaHead = malloc(sizeof(LLNode));//NOT HERE FOR 1 LIST
-    //printf("permahead is stored at %p\n", permaHead);
-    permaHead->next = NULL;
-    permaHead->object = NULL;
-
-    menuNode->head = &permaHead;
+    menuNode->head = malloc(sizeof(LLNode)); // this is the permanent head;
+    menuNode->head->object = NULL;
+    menuNode->head->next = NULL;
 
     return menuNode;
 }
@@ -33,8 +31,9 @@ mNode* menu(mNode* menuNode) // menu work
 {
     //filmDB* DBarray = NULL;
     menuChoice* mChoice = NULL;
+    //printf("sizeof film node is %ld and treenode is %ld\n", sizeof(filmData), sizeof(TreeNode));
+    puts("ENTERED MENU");
 
-    printf("sizeof film node is %ld and treenode is %ld\n", sizeof(filmData), sizeof(TreeNode));
     if ( menuNode != NULL )
     {
         if ( strcmp(menuNode->screen, "exit") == 0 )
@@ -43,7 +42,9 @@ mNode* menu(mNode* menuNode) // menu work
         }
         else if ( strcmp(menuNode->screen, "Main Menu") == 0 ) //UPLOAD PROMPT
         {
-            if( menuNode->size == 0 )
+
+
+            if( menuNode->size == 0 ) // On startup give welcome screen
             {
                 puts("\n\nWelcome to LB+!");
             }
@@ -52,19 +53,21 @@ mNode* menu(mNode* menuNode) // menu work
             printf("(You have %d items uploaded)\n\n", menuNode->size);
 
 
-            if ( menuNode->size == 0 ) // if nothing is uploaded...
+            if ( menuNode->size == 0 ) // if nothing is uploaded yet...
             {
                 mChoice = getMenuChoiceScreen(34);
             }
-            else // if something is uploaded, go offer the list editing screen
+            else // if something is uploaded, offer the list editing screen
             {
                 mChoice = getMenuChoiceScreen(98);
             }
 
             menu(exitMenuSection(menuNode, mChoice, getChoice()));
+            puts("Exiting the main main menu screen");
         }
         else if ( strcmp(menuNode->screen, "Upload and Edit Diary") == 0) //DIARY UPLOAD PROMPT
         {
+
             filmDB diaryDB;
 
             if ( getDiary(menuNode) == NULL ) //if no diary is present
@@ -81,7 +84,7 @@ mNode* menu(mNode* menuNode) // menu work
                 diaryDB = uploadDiary();
             }
 
-            insertTrueLL(*menuNode->head, &diaryDB);
+            addToDatabaseList(menuNode->head, &diaryDB);
             menuNode->size++;
 
             if ( menuNode->head == NULL )
@@ -98,34 +101,36 @@ mNode* menu(mNode* menuNode) // menu work
         }
         else if ( strcmp(menuNode->screen, "Upload Lists") == 0)
         {
-            puts("Enter the number corresponding to your desired list");
+
 
             listDirectoryData lDD = getListDirectoryData("/Users/treywilliams/Local Files/My Stuff/Summer2022/CSpractice/BinaryTrees/lbData/lists/");
 
             printf("0 | Upload Something Else\n\n");
-            printListDirectoryData(lDD);
+            printListDirectoryData(lDD); //prints list in letterboxd stats
 
-            int listChoice = getChoice();
+            int listChoice = getChoice(); //prompts user to choose a list from the list lsit
 
-            if ( listChoice == 0 )
+            if ( listChoice == 0 ) //if the user wants to stop uploading stuff...
             {
 
                 free(lDD.listlist);
                 mChoice = getMenuChoiceScreen(1);
                 menu(exitMenuSection(menuNode, mChoice, 1));
             }
-            else
+            else // if the user decides a list...
             {
+
+                //printf("ABOUT TO UPLOAD LIST CHOSEN BY USER : *menuNode->head->object is %p\n", finder->object);
                 char* listTitle = getListFileByIndex(lDD, listChoice);
 
                 filmDB listDB;
 
-                if ( getDB(menuNode, listTitle) == NULL )
+                if ( getDB(menuNode, listTitle) == NULL ) //if the list isn't already uploaded....
                 {
                     //puts("Inside if statement");
                     listDB = uploadList(listTitle);
                     //puts("Uploaded new list");
-                    insertTrueLL(*menuNode->head, &listDB);
+                    addToDatabaseList(menuNode->head, &listDB);
                     //puts("Inserted list into LL");
                     menuNode->size++;
                     //puts("Increased size");
@@ -248,6 +253,10 @@ mNode* menu(mNode* menuNode) // menu work
             menu(exitMenuSection(menuNode, mChoice, 1));
         }
     }
+    else
+    {
+        puts("yeah we screwed");
+    }
 
     return menuNode;
 }
@@ -346,11 +355,13 @@ mNode* exitMenuSection(mNode* menuNode, menuChoice* mChoice, int choiceIndex)
     {
         freeMenuChoice(mChoice);
         freeAll(menuNode);
+        puts("HERE");
     }
     else
     {
         strcpy(menuNode->screen, getmChoiceByIndex(mChoice, choiceIndex));
         freeMenuChoice(mChoice);
     }
+
     return menuNode;
 }

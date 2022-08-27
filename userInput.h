@@ -1,7 +1,7 @@
 #ifndef USERINPUT_H_
 #define USERINPUT_H_
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 
 int getChoice ();
 

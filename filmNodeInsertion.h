@@ -1,7 +1,7 @@
 #ifndef FILMNODEINSERTION_H_
 #define FILMNODEINSERTION_H_
 
-#include "../helpers.h"
+#include "../csHelpers/helpers.h"
 #include "BST.h"
 TreeNode* insertNodeByYear(TreeNode* head, TreeNode* const newFilm, int year); // DB initialization
 
