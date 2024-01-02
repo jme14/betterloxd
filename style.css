@@ -1,3 +1,41 @@
 h1{
     color: red
 }
+
+button{
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Add cursor pointer on hover */
+}
+
+.title-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: pink;
+    outline: 2px solid blue;
+    padding: 10px
+
+}
+
+.hidden-div{
+    display: none;
+    background-color: green;
+}
