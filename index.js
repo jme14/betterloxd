@@ -1,26 +1,23 @@
-
-function ready(fn){
-    if ( document.readyState !== "loading" ){
-        fn();
-        return;
-    }
-    document.addEventListener("DOMContentLoaded", fn)
-}
+import ready from './modules/ready.js';
 
 
 function main(){
 
-    const hiderButton = document.getElementById("switcher")
+    const rFbutton = document.getElementById("ratingsFilter")
+    rFbutton.addEventListener("click", () => {
+        window.location.href = "pages/ratingRangeListMaker.html"
+    })
 
-    hiderButton.addEventListener("click", ()=> {
-        const hiddenDiv = document.getElementById("hide-tester")
-        const shownDiv = document.getElementById("show-tester")
-        hiddenDiv.classList.remove("hidden-div")
-        shownDiv.classList.add("hidden-div")
+    const yEbutton = document.getElementById("yearEndListMaker")
+    yEbutton.addEventListener("click", () => {
+        window.location.href = "pages/yearWatchedListMaker.html"
+    })
 
+    const lCbutton = document.getElementById("listComparer")
+    lCbutton.addEventListener("click", () => {
+        window.location.href = "pages/listComparer.html"
     })
 
 }
-
 
 ready(main)
