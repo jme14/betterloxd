@@ -8,9 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Betterloxd: Providing Features for Letterboxd Not On Letterboxd</title>
     <link rel="stylesheet" href="../styles/style.css">
+    <script type="module" src="../scripts/yearWatchedListMaker.js"></script>
   </head>
   <body>
     <h1> You have reached the year end list maker! </h1>
     <a href="../index.html">Go back</a>
+
+    <div class="container">
+      <div class="item">
+        <label for="yearPicker">Enter the year for list making</label>
+        <input name="yearPicker" id="yearPicker" type="number">
+      </div>
+        <div class="item">
+          <label for="diaryFile">Upload diary from letterboxd export</label>
+          <input type="file" id="diaryCsv" accept=".csv">
+          <button id="diaryCsvSubmit">Submit</button>
+        </div>
+    </div>
   </body>
 </html>
