@@ -13,6 +13,7 @@ function readListFile(){
         reader.onload = function(e){
             const content = e.target.result
             useReadData(readLetterboxdHomemadeList(content))
+            window.location.href="../rankPage.html"
         }
 
         reader.readAsText(file)
@@ -27,11 +28,10 @@ function main(){
 
 }
 
+
+/* in here is where the ranking will take place */
 function useReadData(data){
 
-    for ( let i = 0 ; i < data.length; i++ ){
-        console.log(data[i])
-    }
     
     //writeListForDownload(data)
 }
