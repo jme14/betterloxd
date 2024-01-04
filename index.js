@@ -18,6 +18,11 @@ function main(){
         window.location.href = "pages/listComparer.html"
     })
 
+    const lRbutton = document.getElementById("listRanker")
+    lRbutton.addEventListener("click", ()=>{
+        window.location.href = "pages/listRanker.html"
+    })
+
 }
 
 ready(main)

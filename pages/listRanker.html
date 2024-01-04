@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,9 +7,18 @@
     <title>Betterloxd: Providing Features for Letterboxd Not On Letterboxd</title>
     <link rel="stylesheet" href="../styles/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.js" integrity="sha512-M0cjXJTonbWEdLI3HJIoJSQBb9980RWmOCk+tvWkhgFrAZqSSIg1+1Db/vDu7Qk9W3L90gBynve17PYvarjfQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="../scripts/listRanker.js"></script>
   </head>
   <body>
-    <h1> You have reached the list comparer! </h1>
+    <h1> You have reached the list ranker! </h1>
     <a href="../index.html">Go back</a>
+
+    <div class="container">
+        <div class="item">
+          <label for="rankFile">Upload the list you created!</label>
+          <input type="file" id="rankCsv" accept=".csv">
+          <button id="rankCsvSubmit">Submit</button>
+        </div>
+    </div>
   </body>
 </html>
