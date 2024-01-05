@@ -7,7 +7,7 @@
     <title>Betterloxd: Providing Features for Letterboxd Not On Letterboxd</title>
     <link rel="stylesheet" href="../styles/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.js" integrity="sha512-M0cjXJTonbWEdLI3HJIoJSQBb9980RWmOCk+tvWkhgFrAZqSSIg1+1Db/vDu7Qk9W3L90gBynve17PYvarjfQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="module" src="../scripts/listRanker.js"></script>
+    <script type="module" src="../scripts/listRanker.js" defer ></script>
   </head>
   <body>
     <h1> You have reached the list ranker! </h1>
@@ -24,21 +24,18 @@
     <div class="poster-container-container">
         <div class="poster-container item">
             <div class="item poster-img">
-                <img src="https://diamondpainting5d.com/wp-content/uploads/2022/06/Goodfellas-poster.jpg" alt="Placeholder poster">
+                <img id="film1img" src="https://diamondpainting5d.com/wp-content/uploads/2022/06/Goodfellas-poster.jpg" alt="Placeholder poster">
             </div>
-            <h4>
-                    Movie1
-            </h4>
+            <button id="film1button">Movie 1</button>
         </div>
 
         <div class="poster-container item">
             <div class="item poster-img">
-                <img src="https://diamondpainting5d.com/wp-content/uploads/2022/06/Goodfellas-poster.jpg" alt="Placeholder poster">
+                <img id="film2img" src="https://diamondpainting5d.com/wp-content/uploads/2022/06/Goodfellas-poster.jpg" alt="Placeholder poster">
             </div>
-            <h4>
-                    Movie2
-            </h4>
+            <button id="film2button">Movie 2</button>
         </div>
     </div>
+
   </body>
 </html>
