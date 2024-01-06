@@ -34,12 +34,19 @@ function main(){
 /* in here is where the ranking will take place */
 async function useReadData(data) {
 
-    data = await recursiveQuickSort(data, 0, data.length-1) 
-    data = data.reverse()
-    for ( let i = 1 ; i < data.length+1 ; i++){
-        data[i-1][0] = i
-    }
+    data = await rankFilms(data)
     writeListForDownload(data)
+}
+
+
+async function rankFilms(data){
+    let newData = await recursiveQuickSort(data, 0, data.length-1)
+    newData = newData.reverse()
+    for ( let i = 0 ; i < newData.length ; i++ )
+    {
+        newData[i][0] = i+1
+    }
+    return newData 
 }
 
 // returns true if film1 better, false if film2 better
