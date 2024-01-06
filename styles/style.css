@@ -25,6 +25,16 @@ button{
     justify-content: space-between;
 }
 
+.poster-title-container{
+    display: flex;
+    justify-content: space-evenly
+}
+
+.poster-title-container > h2{
+    width: 200px;
+    text-align: center;
+}
+
 .poster-container-container{
     display: flex;
     flex-direction: row;

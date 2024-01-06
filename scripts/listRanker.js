@@ -28,6 +28,16 @@ function main(){
     const submitButton = document.getElementById("rankCsvSubmit")
     submitButton.addEventListener("click", readListFile)
 
+    let originalDiv = document.getElementById("container-1")
+    let containerContainer = document.getElementById("containerContainer")
+
+    for ( let i = 0 ; i < 10 ; i++ ){
+        let clone = originalDiv.cloneNode(true)
+        clone.classList.add("cloned-div")
+        clone.id = `container-${i+2}`
+        containerContainer.appendChild(clone)
+    }
+
 }
 
 
@@ -39,6 +49,7 @@ async function useReadData(data) {
 }
 
 
+// function that takes the data and does the proper ranking, however that needs to be done 
 async function rankFilms(data){
     let newData = await recursiveQuickSort(data, 0, data.length-1)
     newData = newData.reverse()
