@@ -34,13 +34,6 @@ function main(){
 /* in here is where the ranking will take place */
 async function useReadData(data) {
 
-    /*
-    const tmdbData = await getFilmByTitleAndYear("Jack Reacher", 2016)
-    const posterPath = getPosterPathFromTMDBData(tmdbData)
-    console.log(posterPath)
-    document.getElementById("film1img").setAttribute("src", posterPath)
-    */
-
     data = await recursiveQuickSort(data, 0, data.length-1) 
     data = data.reverse()
     for ( let i = 1 ; i < data.length+1 ; i++){
