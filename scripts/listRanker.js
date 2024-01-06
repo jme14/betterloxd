@@ -41,12 +41,12 @@ async function useReadData(data) {
     document.getElementById("film1img").setAttribute("src", posterPath)
     */
 
-    console.log(data)
     data = await recursiveQuickSort(data, 0, data.length-1) 
-    console.log(data.reverse())
-
-
-    //writeListForDownload(data)
+    data = data.reverse()
+    for ( let i = 1 ; i < data.length+1 ; i++){
+        data[i-1][0] = i
+    }
+    writeListForDownload(data)
 }
 
 // returns true if film1 better, false if film2 better
@@ -79,6 +79,8 @@ function waitForChoice() {
         document.getElementById("film2button").addEventListener("click", ()=>{
             resolve("Option2")
         })
+    },(reject) => {
+        console.log(reject)   
     })
 }
 
@@ -111,12 +113,16 @@ async function partition(data, low, high){
 
 async function recursiveQuickSort(data, low, high){
     if ( low < high ){
-        let partitionIndex = await partition(data, low, high)
-
-        data = await recursiveQuickSort(data, low, partitionIndex-1)
-        data = await recursiveQuickSort(data, partitionIndex+1, high)
+        try{
+            let partitionIndex = await partition(data, low, high)
+            data = await recursiveQuickSort(data, low, partitionIndex-1)
+            data = await recursiveQuickSort(data, partitionIndex+1, high)
+            return data
+        } catch (error){
+            console.log(error)
+            return null
+        }
     }
-
     return data
 }
 
