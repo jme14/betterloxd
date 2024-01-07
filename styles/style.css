@@ -74,3 +74,12 @@ button{
     object-fit: cover;
     object-position: center center;
 }
+
+
+.leftFilmImg{
+    display: none;
+}
+
+.rightFilmImg{
+    display: none;
+}

@@ -27,25 +27,90 @@ function readListFile(){
 function main(){
     const submitButton = document.getElementById("rankCsvSubmit")
     submitButton.addEventListener("click", readListFile)
+}
+
+function populatePosters(filmRecords, pivot, low, high){
 
     let originalDiv = document.getElementById("container-1")
     let containerContainer = document.getElementById("containerContainer")
 
-    for ( let i = 0 ; i < 10 ; i++ ){
-        let clone = originalDiv.cloneNode(true)
-        clone.classList.add("cloned-div")
-        clone.id = `container-${i+2}`
-        containerContainer.appendChild(clone)
+    let pivotTMDB = getFilmByTitleAndYear(pivot[1], pivot[2])
+    pivotTMDB.then( (result) =>{
+        document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(result))
+    })
+
+    document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(getFilmByTitleAndYear(pivot[1],pivot[2])))
+
+    for ( let i = low ; i < high ; i++ ){
+        addRow(containerContainer,originalDiv, filmRecords[i], i+2)
     }
+
+    let submitForCycle = document.createElement("button")
+    submitForCycle.id = "cycleSubmitButton"
+    containerContainer.appendChild(submitForCycle)
+    
+}
+
+function setAllImagesInDiv(theDiv, theSrc){
+    let allImages = theDiv.querySelectorAll("img")
+    for ( let i = 0 ; i < allImages.length ; i++ ){
+        allImages[i].setAttribute("src", theSrc)
+    }
+
+}
+
+async function addRow(containerContainer, originalDiv, filmRecord, number){
+    let clone = originalDiv.cloneNode(true)
+    clone.id = `container-${number}`
+    containerContainer.appendChild(clone)
+
+    let imgList = clone.querySelectorAll("img")
+    for ( let i = 0 ; i < imgList.length ; i++){
+        let className = imgList[i].className
+        imgList[i].id = `${className}-${number}`
+
+        let parentDiv = imgList[i].parentNode;
+        parentDiv.addEventListener("click", (event) => movePoster(event, clone))
+    }
+    console.log("One below:")
+    console.log(filmRecord)
+
+    let tmdbData = await getFilmByTitleAndYear(filmRecord[1], filmRecord[2])
+    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData))
+
+
+}
+
+function movePoster(event, rowDiv){
+
+
+    let imgDiv = event.srcElement
+    let imgInClickedDiv = null
+    if ( imgDiv.tagName === "DIV"){
+        imgInClickedDiv = imgDiv.querySelector("img")
+    } else {
+        imgInClickedDiv = imgDiv
+    }
+
+    let allImages = rowDiv.querySelectorAll("img")
+    for ( let i = 0 ; i < allImages.length ; i++){
+        if ( allImages[i].style.display !== "none" ){
+            allImages[i].style.display = "none"
+            continue
+        }
+    }
+
+    console.log(imgInClickedDiv)
+    imgInClickedDiv.style.display = "block"
+
+    
 
 }
 
 
 /* in here is where the ranking will take place */
 async function useReadData(data) {
-
     data = await rankFilms(data)
-    writeListForDownload(data)
 }
 
 
@@ -53,8 +118,7 @@ async function useReadData(data) {
 async function rankFilms(data){
     let newData = await recursiveQuickSort(data, 0, data.length-1)
     newData = newData.reverse()
-    for ( let i = 0 ; i < newData.length ; i++ )
-    {
+    for ( let i = 0 ; i < newData.length ; i++ ){
         newData[i][0] = i+1
     }
     return newData 
@@ -105,9 +169,13 @@ async function partition(data, low, high){
     }
 
     let pivot = data[high] 
-
     let lowSwapper = low-1
 
+    // ON CALL, populate the table 
+
+    populatePosters(data, pivot, low, high)
+
+    // ON SUBMIT, do the below 
     for ( let highSwapper = low ; highSwapper < high ; highSwapper++){
         const pivotBetter = await compareFilms(pivot, data[highSwapper])
         if ( pivotBetter ){
