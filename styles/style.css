@@ -25,10 +25,11 @@ button{
     justify-content: space-between;
 }
 
-.poster-title-container{
+.poster-title-container, .button-container{
     display: flex;
     justify-content: space-evenly
 }
+
 
 .poster-title-container > h2{
     width: 200px;
@@ -82,4 +83,14 @@ button{
 
 .rightFilmImg{
     display: none;
+}
+
+.leftFilmImgDiv, .leftFilmImgDiv * {
+    background: red;
+    outline: none;
+}
+
+.rightFilmImgDiv {
+    background: green;
+    outline: none;
 }

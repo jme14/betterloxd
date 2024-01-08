@@ -37,18 +37,27 @@ function populatePosters(filmRecords, pivot, low, high){
     let pivotTMDB = getFilmByTitleAndYear(pivot[1], pivot[2])
     pivotTMDB.then( (result) =>{
         document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(result))
+
+        for ( let i = low ; i < high ; i++ ){
+            addRow(containerContainer,originalDiv, filmRecords[i], i+2, getPosterPathFromTMDBData(result))
+        }
+
+        makeCycleSubmitButton(containerContainer)
     })
+}
 
-    document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(getFilmByTitleAndYear(pivot[1],pivot[2])))
-
-    for ( let i = low ; i < high ; i++ ){
-        addRow(containerContainer,originalDiv, filmRecords[i], i+2)
-    }
-
+function makeCycleSubmitButton(containerContainer){
     let submitForCycle = document.createElement("button")
     submitForCycle.id = "cycleSubmitButton"
-    containerContainer.appendChild(submitForCycle)
-    
+    submitForCycle.innerHTML = "Submit Cycle"
+
+    let divForSubmitForCycle = document.createElement("div")
+    divForSubmitForCycle.id = "cycleSubmitButtonDiv"
+    divForSubmitForCycle.classList.add("button-container")
+
+    divForSubmitForCycle.appendChild(submitForCycle)
+    containerContainer.appendChild(divForSubmitForCycle)
+
 }
 
 function setAllImagesInDiv(theDiv, theSrc){
@@ -59,7 +68,7 @@ function setAllImagesInDiv(theDiv, theSrc){
 
 }
 
-async function addRow(containerContainer, originalDiv, filmRecord, number){
+async function addRow(containerContainer, originalDiv, filmRecord, number, pivotImgSrc){
     let clone = originalDiv.cloneNode(true)
     clone.id = `container-${number}`
     containerContainer.appendChild(clone)
@@ -69,8 +78,10 @@ async function addRow(containerContainer, originalDiv, filmRecord, number){
         let className = imgList[i].className
         imgList[i].id = `${className}-${number}`
 
-        let parentDiv = imgList[i].parentNode;
-        parentDiv.addEventListener("click", (event) => movePoster(event, clone))
+        if ( className !== "middleFilmImg"){
+            let parentDiv = imgList[i].parentNode;
+            parentDiv.addEventListener("click", (event) => movePoster(event, clone, pivotImgSrc))
+        }
     }
     console.log("One below:")
     console.log(filmRecord)
@@ -81,7 +92,7 @@ async function addRow(containerContainer, originalDiv, filmRecord, number){
 
 }
 
-function movePoster(event, rowDiv){
+function movePoster(event, rowDiv, pivotImgSrc){
 
 
     let imgDiv = event.srcElement
@@ -95,8 +106,7 @@ function movePoster(event, rowDiv){
     let allImages = rowDiv.querySelectorAll("img")
     for ( let i = 0 ; i < allImages.length ; i++){
         if ( allImages[i].style.display !== "none" ){
-            allImages[i].style.display = "none"
-            continue
+            removePoster(allImages[i], pivotImgSrc)
         }
     }
 
@@ -106,6 +116,18 @@ function movePoster(event, rowDiv){
     
 
 }
+
+function removePoster(img, pivotSrc){
+    let imgId = img.id
+
+    let position = imgId.split("-")[0]
+    if ( position === "middleFilmImg"){
+        img.setAttribute("src", pivotSrc)
+    } else {
+        img.style.display = "none"
+    }
+}
+
 
 
 /* in here is where the ranking will take place */
