@@ -4,6 +4,8 @@ import {readLetterboxdHomemadeList} from "../modules/csvParsing.js"
 import { getFilmByTitleAndYear } from "../modules/tmdbApi.js"
 import { getPosterPathFromTMDBData } from "../modules/tmdbApi.js"
 
+import QuickSortObject from "../modules/quickSortObject.js"
+
 import writeListForDownload from "../modules/listWriting.js"
 
 function readListFile(){
@@ -29,115 +31,32 @@ function main(){
     submitButton.addEventListener("click", readListFile)
 }
 
-function populatePosters(filmRecords, pivot, low, high){
-
-    let originalDiv = document.getElementById("container-1")
-    let containerContainer = document.getElementById("containerContainer")
-
-    let pivotTMDB = getFilmByTitleAndYear(pivot[1], pivot[2])
-    pivotTMDB.then( (result) =>{
-        document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(result))
-
-        for ( let i = low ; i < high ; i++ ){
-            addRow(containerContainer,originalDiv, filmRecords[i], i+2, getPosterPathFromTMDBData(result))
-        }
-
-        makeCycleSubmitButton(containerContainer)
-    })
-}
-
-function makeCycleSubmitButton(containerContainer){
-    let submitForCycle = document.createElement("button")
-    submitForCycle.id = "cycleSubmitButton"
-    submitForCycle.innerHTML = "Submit Cycle"
-
-    let divForSubmitForCycle = document.createElement("div")
-    divForSubmitForCycle.id = "cycleSubmitButtonDiv"
-    divForSubmitForCycle.classList.add("button-container")
-
-    divForSubmitForCycle.appendChild(submitForCycle)
-    containerContainer.appendChild(divForSubmitForCycle)
-
-}
-
-function setAllImagesInDiv(theDiv, theSrc){
-    let allImages = theDiv.querySelectorAll("img")
-    for ( let i = 0 ; i < allImages.length ; i++ ){
-        allImages[i].setAttribute("src", theSrc)
-    }
-
-}
-
-async function addRow(containerContainer, originalDiv, filmRecord, number, pivotImgSrc){
-    let clone = originalDiv.cloneNode(true)
-    clone.id = `container-${number}`
-    containerContainer.appendChild(clone)
-
-    let imgList = clone.querySelectorAll("img")
-    for ( let i = 0 ; i < imgList.length ; i++){
-        let className = imgList[i].className
-        imgList[i].id = `${className}-${number}`
-
-        if ( className !== "middleFilmImg"){
-            let parentDiv = imgList[i].parentNode;
-            parentDiv.addEventListener("click", (event) => movePoster(event, clone, pivotImgSrc))
-        }
-    }
-    console.log("One below:")
-    console.log(filmRecord)
-
-    let tmdbData = await getFilmByTitleAndYear(filmRecord[1], filmRecord[2])
-    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData))
-
-
-}
-
-function movePoster(event, rowDiv, pivotImgSrc){
-
-
-    let imgDiv = event.srcElement
-    let imgInClickedDiv = null
-    if ( imgDiv.tagName === "DIV"){
-        imgInClickedDiv = imgDiv.querySelector("img")
-    } else {
-        imgInClickedDiv = imgDiv
-    }
-
-    let allImages = rowDiv.querySelectorAll("img")
-    for ( let i = 0 ; i < allImages.length ; i++){
-        if ( allImages[i].style.display !== "none" ){
-            removePoster(allImages[i], pivotImgSrc)
-        }
-    }
-
-    console.log(imgInClickedDiv)
-    imgInClickedDiv.style.display = "block"
-
-    
-
-}
-
-function removePoster(img, pivotSrc){
-    let imgId = img.id
-
-    let position = imgId.split("-")[0]
-    if ( position === "middleFilmImg"){
-        img.setAttribute("src", pivotSrc)
-    } else {
-        img.style.display = "none"
-    }
-}
-
-
 
 /* in here is where the ranking will take place */
 async function useReadData(data) {
     data = await rankFilms(data)
 }
 
+async function rankFilms(data){
+    console.log("We made it here!")
+    let qs = new QuickSortObject(data, 0, data.length-1, "start")
+    let qsPromise = qs.getCompletionPromise()
+    qs.classMain()
+
+    qsPromise.then( () => {
+        console.log("HERE IS YOUR COMPLETED LIST!")
+        console.log(qs.data) 
+    })
+
+
+}
+
+
+ready(main)
+
 
 // function that takes the data and does the proper ranking, however that needs to be done 
-async function rankFilms(data){
+async function rankFilmsOld(data){
     let newData = await recursiveQuickSort(data, 0, data.length-1)
     newData = newData.reverse()
     for ( let i = 0 ; i < newData.length ; i++ ){
@@ -227,5 +146,35 @@ async function recursiveQuickSort(data, low, high){
     return data
 }
 
-ready(main)
+async function populatePosters(filmRecords, low, high){
+
+    let pivot = filmRecords[high]
+
+    let originalDiv = document.getElementById("container-1")
+    let containerContainer = document.getElementById("containerContainer")
+
+    let pivotTMDB = await getFilmByTitleAndYear(pivot[1], pivot[2])
+    document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(pivotTMDB))
+
+    for ( let i = low ; i < high ; i++ ){
+        addRow(containerContainer,originalDiv, filmRecords[i], i+2, getPosterPathFromTMDBData(pivotTMDB))
+    }
+
+    makeCycleSubmitButton(containerContainer)
+}
+
+function makeCycleSubmitButton(containerContainer){
+    let submitForCycle = document.createElement("button")
+    submitForCycle.id = "cycleSubmitButton"
+    submitForCycle.innerHTML = "Submit Cycle"
+
+    let divForSubmitForCycle = document.createElement("div")
+    divForSubmitForCycle.id = "cycleSubmitButtonDiv"
+    divForSubmitForCycle.classList.add("button-container")
+
+    divForSubmitForCycle.appendChild(submitForCycle)
+    containerContainer.appendChild(divForSubmitForCycle)
+
+}
+
 
