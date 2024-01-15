@@ -1,9 +1,10 @@
 import { getFilmByTitleAndYear, getPosterPathFromTMDBData } from "./tmdbApi.js"
 
- function setAllImagesInDiv(theDiv, theSrc){
+ function setAllImagesInDiv(theDiv, theSrc, theAlt){
     let allImages = theDiv.querySelectorAll("img")
     for ( let i = 0 ; i < allImages.length ; i++ ){
         allImages[i].setAttribute("src", theSrc)
+        allImages[i].setAttribute("alt", theAlt)
     }
 
 }
@@ -51,14 +52,18 @@ export default async function addRow(containerContainer, originalDiv, filmRecord
         let className = imgList[i].className
         imgList[i].id = `${className}-${number}`
 
+        let parentDiv = imgList[i].parentNode
+        let noscriptText = document.createElement("noscript")
+        noscriptText.innerHTML = filmRecord[1]
+        parentDiv.appendChild(noscriptText)
+
         if ( className !== "middleFilmImg"){
-            let parentDiv = imgList[i].parentNode;
             parentDiv.addEventListener("click", (event) => movePoster(event, clone, pivotImgSrc))
         }
     }
     console.log(filmRecord)
 
     let tmdbData = await getFilmByTitleAndYear(filmRecord[1], filmRecord[2])
-    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData))
+    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData), filmRecord[1])
 }
 

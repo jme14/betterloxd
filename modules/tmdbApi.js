@@ -7,31 +7,41 @@ const IMG_URL = config.image_base_url
 export async function getFilmByTitleAndYear(title, year){
 
     title = title.replace(/ /g,'+')
-    try{
+    const searchString = `${TMDB_URL}search/movie?query=${title}&api_key=${TMDB_KEY}`
+    console.log(searchString)
+    const response = await fetch(searchString)
+    const responseData = await response.json()
 
-        const searchString = `${TMDB_URL}search/movie?query=${title}&api_key=${TMDB_KEY}`
-        console.log(searchString)
-        const response = await fetch(searchString)
-        const responseData = await response.json()
+    const data = responseData?.results
 
-        const data = responseData?.results
-
-        for ( let i = 0 ; i < data.length ; i++){
-            const yearFromData = data[i].release_date.split("-")[0]
-            if (yearFromData === year.toString()){
-                return data[i]
-            }
+    for ( let i = 0 ; i < data.length ; i++){
+        const yearFromData = data[i].release_date.split("-")[0]
+        if (yearFromData === year.toString()){
+            return data[i]
         }
-    } catch ( error ){
-        console.log(error)
     }
 
+    for ( let i = 0 ; i < data.length ; i++){
+        const yearFromData = data[i].release_date.split("-")[0]
+        if (Math.abs(yearFromData - year.toString()) < 2){
+            return data[i]
+        }
+    }
 
-    return null
+    console.log(`WARNING: RELEASE YEAR NOT EVEN CLOSE TO RIGHT FOR ${title}`)
+    return data[0]
 }
 
 export function getPosterPathFromTMDBData(tmdbData){
-    const imgPath = `${IMG_URL}${tmdbData.poster_path}`
+    let posterPath = null 
+    try{
+        posterPath = tmdbData.posterPath
+        const imgPath = `${IMG_URL}${tmdbData.poster_path}`
+        return imgPath
+    } catch(error) {
+        console.log(error)
+        console.log(tmdbData)
+        return ""
+    }
 
-    return imgPath
 }

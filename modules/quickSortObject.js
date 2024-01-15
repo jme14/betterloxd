@@ -5,7 +5,7 @@ import addRow from "./rankRowMaker.js"
 export default class QuickSortObject{
 
     constructor (data, low, high, source){
-        console.log(`This is data coming from the ${source}`)
+
         console.log(data)
         console.log(low)
         console.log(high)
@@ -43,7 +43,11 @@ export default class QuickSortObject{
             return
         } else {
             console.log("The above are absolutely not the same number heehee!")
-            await this.populatePosters()
+            try{
+                await this.populatePosters()
+            } catch (error){
+                console.log(error)
+            }
         }
     }
 
@@ -53,17 +57,9 @@ export default class QuickSortObject{
         let originalDiv = document.getElementById("container-1")
         let containerContainer = document.getElementById("containerContainer")
 
-        console.log("This.data is the following:")
-        console.log(this.data)
-        console.log("This.high is the following")
-        console.log(this.high)
-
-        console.log("The pivot and element 1 are the following:")
-        console.log(pivot) 
-        console.log(pivot[1]) 
-
         let pivotTMDB = await getFilmByTitleAndYear(pivot[1], pivot[2])
         document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(pivotTMDB))
+        document.getElementById("middleFilmImg-1").setAttribute("alt", pivotTMDB[1])
     
         for ( let i = this.low ; i < this.high ; i++ ){
             addRow(containerContainer,originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))

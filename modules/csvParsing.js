@@ -7,16 +7,18 @@ export function readLetterboxdHomemadeList(data){
     let returnArray = []
 
     for( let i = 1 ; i < papa.data.length ; i++ ){
-        if ( papaData[i].length !== 4) continue
+        if ( papaData[i].length !== 8){
+            continue
+        } 
         let record = []
 
         record.push(i) //position
-        record.push(papaData[i][0]) //title 
-        record.push(papaData[i][1]) //year 
-        record.push(papaData[i][2]) //URL
-        record.push(papaData[i][3]) //rating
-        record.push(papaData[i][4]) //watched date
-        record.push(papaData[i][5]) //description
+        record.push(papaData[i][1]) //title 
+        record.push(papaData[i][2]) //year 
+        record.push(papaData[i][3]) //URL
+        record.push(papaData[i][4]) //rating
+        record.push(papaData[i][5]) //watched date
+        record.push(papaData[i][6]) //description
 
         returnArray.push(record)
     }
@@ -31,9 +33,10 @@ export function readLetterboxdDataDiary(data){
 
     const papaData = papa.data
     let realData = []
+    console.log(papaData)
 
     for ( let i = 1 ; i < data.length ; i++ ){
-        if ( papaData[i].length !== 8) continue
+        if ( papaData[i] === undefined || papaData[i].length !== 8) continue
         let newRecord = [];
 
         newRecord.push(i+1) // position 
