@@ -8,7 +8,6 @@ export async function getFilmByTitleAndYear(title, year){
 
     title = title.replace(/ /g,'+')
     const searchString = `${TMDB_URL}search/movie?query=${title}&api_key=${TMDB_KEY}`
-    console.log(searchString)
     const response = await fetch(searchString)
     const responseData = await response.json()
 

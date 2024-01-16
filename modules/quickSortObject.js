@@ -10,7 +10,15 @@ export default class QuickSortObject{
         console.log(low)
         console.log(high)
 
+
+        // this is kind of stupid, change this later 
+        while (data[data.length-1].length === 1){
+            console.log("POP POP")
+            data.pop()
+        }
+
         this.data = data
+
         this.low = low 
         this.high = high 
         this.pivotIndex = null
@@ -57,12 +65,17 @@ export default class QuickSortObject{
         let originalDiv = document.getElementById("container-1")
         let containerContainer = document.getElementById("containerContainer")
 
+        const shuffleButtonDiv = this.getShuffleButtonDiv()
+        containerContainer.appendChild(shuffleButtonDiv)
+
         let pivotTMDB = await getFilmByTitleAndYear(pivot[1], pivot[2])
         document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(pivotTMDB))
         document.getElementById("middleFilmImg-1").setAttribute("alt", pivotTMDB[1])
     
         for ( let i = this.low ; i < this.high ; i++ ){
-            addRow(containerContainer,originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
+            if ( this.data[i] !== undefined) {
+                addRow(containerContainer,originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
+            }
         }
     
         let submitForCycle = document.createElement("button")
@@ -74,12 +87,16 @@ export default class QuickSortObject{
         divForSubmitForCycle.classList.add("button-container")
     
         divForSubmitForCycle.appendChild(submitForCycle)
+
+
         containerContainer.appendChild(divForSubmitForCycle)
     
         document.getElementById("cycleSubmitButton").addEventListener("click", async () => { 
             await this.calculateCycle()
             this.markRecursiveCallsComplete()
         })
+
+        console.log(`Data has a length of ${this.data.length}`)
     }
 
 
@@ -130,9 +147,13 @@ export default class QuickSortObject{
         let containerContainer = document.getElementById("containerContainer")
         let clone = document.getElementById("container-1").cloneNode(true)
 
+        let shuffleButtonDiv = document.getElementById("shuffleButtonDiv")
+        shuffleButtonDiv.remove()
+
         while (containerContainer.firstChild){
             containerContainer.removeChild(containerContainer.firstChild)
         }
+
 
         containerContainer.appendChild(clone)
         await this.nextCalls()
@@ -157,6 +178,45 @@ export default class QuickSortObject{
 
         console.log("Returning!")
         return 
+
+    }
+
+
+    // OPTIONAL STEP: SHUFFLE DATA SO THAT THE PIVOT CHANGES
+    shuffleData(){
+        console.log(`Shuffling data, which is of length ${this.data.length}`)
+        for ( let i = this.data.length-1 ; i > 0 ; i-- ){
+            const j = Math.floor(Math.random()*(i+1))
+
+            const temp = this.data[i]
+            this.data[i] = this.data[j]
+            this.data[j] = temp
+        } 
+        console.log(`Done shuffling data, which is now of length ${this.data.length}`)
+
+        this.resetRows()
+        this.populatePosters()
+    }
+
+    getShuffleButtonDiv(){
+
+        if ( document.getElementById("shuffleButtonDiv") === null ){
+
+            let shuffleButtonDiv = document.createElement("div")
+            shuffleButtonDiv.classList.add("button-container")
+            shuffleButtonDiv.id = "shuffleButtonDiv"
+
+            // shuffle button
+            let shuffleButton = document.createElement("button")
+            shuffleButton.innerHTML = "Shuffle pivot"
+            shuffleButton.addEventListener("click", () => this.shuffleData())
+            shuffleButton.id = "shuffleButton"
+            shuffleButtonDiv.appendChild(shuffleButton)
+
+            return shuffleButtonDiv
+        }
+
+        return document.getElementById("shuffleButtonDiv")
 
     }
 }

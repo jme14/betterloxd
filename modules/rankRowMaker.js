@@ -27,7 +27,6 @@ function movePoster(event, rowDiv, pivotImgSrc){
         }
     }
 
-    console.log(imgInClickedDiv)
     imgInClickedDiv.style.display = "block"
 }
 
@@ -55,13 +54,13 @@ export default async function addRow(containerContainer, originalDiv, filmRecord
         let parentDiv = imgList[i].parentNode
         let noscriptText = document.createElement("noscript")
         noscriptText.innerHTML = filmRecord[1]
+
         parentDiv.appendChild(noscriptText)
 
         if ( className !== "middleFilmImg"){
             parentDiv.addEventListener("click", (event) => movePoster(event, clone, pivotImgSrc))
         }
     }
-    console.log(filmRecord)
 
     let tmdbData = await getFilmByTitleAndYear(filmRecord[1], filmRecord[2])
     setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData), filmRecord[1])
