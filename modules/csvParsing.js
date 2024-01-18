@@ -27,7 +27,7 @@ export function readLetterboxdHomemadeList(data){
 }
 
 
-export function readLetterboxdDataDiary(data){
+export function readLetterboxdDataDiary(data, removeRewatches){
 
     const papa = Papa.parse(data)
 
@@ -37,6 +37,12 @@ export function readLetterboxdDataDiary(data){
 
     for ( let i = 1 ; i < data.length ; i++ ){
         if ( papaData[i] === undefined || papaData[i].length !== 8) continue
+
+        if ( removeRewatches === true ){
+            if ( papaData[i][5] === "Yes")
+            continue
+        }
+        
         let newRecord = [];
 
         newRecord.push(i+1) // position 

@@ -12,7 +12,7 @@ function readDiaryFile(){
         const reader = new FileReader()
         reader.onload = function(e){
             const content = e.target.result
-            useReadData(readLetterboxdDataDiary(content))
+            useReadData(readLetterboxdDataDiary(content, true))
         }
 
         reader.readAsText(file)
@@ -37,6 +37,7 @@ function useReadData(data){
     }
 
     data = data.filter(isInRange)
+    console.log(data)
 
     for ( let i = 0 ; i < data.length; i++ ){
         console.log(data[i])
