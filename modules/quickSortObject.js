@@ -74,10 +74,12 @@ export default class QuickSortObject{
     
         for ( let i = this.low ; i < this.high ; i++ ){
             if ( this.data[i] !== undefined) {
-                addRow(containerContainer,originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
+                //addRow(containerContainer,originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
+                setTimeout(addRow, 1000, containerContainer, originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
             }
         }
-    
+        setTimeout(addCycleSubmitToPage, (this.high-this.low)+1000)
+
         let submitForCycle = document.createElement("button")
         submitForCycle.id = "cycleSubmitButton"
         submitForCycle.innerHTML = "Submit Cycle"
@@ -85,18 +87,20 @@ export default class QuickSortObject{
         let divForSubmitForCycle = document.createElement("div")
         divForSubmitForCycle.id = "cycleSubmitButtonDiv"
         divForSubmitForCycle.classList.add("button-container")
-    
+
         divForSubmitForCycle.appendChild(submitForCycle)
 
-
-        containerContainer.appendChild(divForSubmitForCycle)
-    
-        document.getElementById("cycleSubmitButton").addEventListener("click", async () => { 
+        submitForCycle.addEventListener("click", async () => { 
             await this.calculateCycle()
             this.markRecursiveCallsComplete()
         })
 
         console.log(`Data has a length of ${this.data.length}`)
+
+        function addCycleSubmitToPage(){
+            console.log("Appending to page!")
+            containerContainer.appendChild(divForSubmitForCycle)
+        }
     }
 
 
