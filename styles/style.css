@@ -94,3 +94,8 @@ button{
     background: green;
     outline: none;
 }
+
+.hiddenButton{
+    visibility: hidden;
+    opacity: 0;
+}

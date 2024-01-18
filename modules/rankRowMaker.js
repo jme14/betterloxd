@@ -18,6 +18,7 @@ function movePoster(event, rowDiv, pivotImgSrc){
         imgInClickedDiv = imgDiv.querySelector("img")
     } else {
         imgInClickedDiv = imgDiv
+        imgDiv = imgDiv.parentNode
     }
 
     let allImages = rowDiv.querySelectorAll("img")
@@ -28,16 +29,32 @@ function movePoster(event, rowDiv, pivotImgSrc){
     }
 
     imgInClickedDiv.style.display = "block"
+    showInfoButton(imgDiv)
 }
 
 function removePoster(img, pivotSrc){
     let imgId = img.id
 
     let position = imgId.split("-")[0]
+    hideInfoButton(img.parentNode)
     if ( position === "middleFilmImg"){
         img.setAttribute("src", pivotSrc)
     } else {
         img.style.display = "none"
+    }
+}
+function hideInfoButton(imgDiv){
+    const currentInfoButton = imgDiv.nextElementSibling
+    if ( !currentInfoButton.classList.contains("hiddenButton")){
+        currentInfoButton.classList.add("hiddenButton")
+    }
+
+}
+
+function showInfoButton(imgDiv){
+    const infoButton = imgDiv.nextElementSibling
+    if ( infoButton.classList.contains("hiddenButton")){
+        infoButton.classList.remove("hiddenButton")
     }
 }
 
