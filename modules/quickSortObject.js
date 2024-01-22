@@ -148,6 +148,13 @@ export default class QuickSortObject{
     }
     // STEP 4: REMOVE CONTENTS FROM DIV 
     async resetRows(){
+        await this.resetRowsWithoutEvaluation()
+        await this.nextCalls()
+
+        return 
+    }
+
+    async resetRowsWithoutEvaluation(){
         let containerContainer = document.getElementById("containerContainer")
         let clone = document.getElementById("container-1").cloneNode(true)
 
@@ -155,14 +162,10 @@ export default class QuickSortObject{
         shuffleButtonDiv.remove()
 
         while (containerContainer.firstChild){
+            console.log("Removing child")
             containerContainer.removeChild(containerContainer.firstChild)
         }
-
-
         containerContainer.appendChild(clone)
-        await this.nextCalls()
-
-        return 
     }
 
     // STEP 5: WAIT FOR THE LEFT TO DO ITS THING 
@@ -198,7 +201,7 @@ export default class QuickSortObject{
         } 
         console.log(`Done shuffling data, which is now of length ${this.data.length}`)
 
-        this.resetRows()
+        this.resetRowsWithoutEvaluation()
         this.populatePosters()
     }
 
