@@ -9,6 +9,19 @@ import { getFilmByTitleAndYear, getPosterPathFromTMDBData } from "./tmdbApi.js"
 
 }
 
+function supplyInfoButtonData(diaryTitle, diaryYear, divWithButtons){
+    let buttonArray = divWithButtons.querySelectorAll("button")
+
+    for ( let i = 0 ; i < buttonArray.length ; i++ ){
+        const currentButton = buttonArray[i]
+        currentButton.addEventListener( "click", () => alertDiaryData(diaryTitle, diaryYear))
+    }
+}
+
+function alertDiaryData(diaryTitle, diaryYear){
+    alert(`"${diaryTitle}", ${diaryYear}`)
+}
+
 function movePoster(event, rowDiv, pivotImgSrc){
 
 
@@ -81,5 +94,6 @@ export default async function addRow(containerContainer, originalDiv, filmRecord
 
     let tmdbData = await getFilmByTitleAndYear(filmRecord[1], filmRecord[2])
     setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData), filmRecord[1])
+    supplyInfoButtonData(filmRecord[1], filmRecord[2], clone)
 }
 
