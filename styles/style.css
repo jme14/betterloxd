@@ -34,9 +34,16 @@ button{
 
 .poster-title-container, .button-container{
     display: flex;
-    justify-content: space-evenly
+    justify-content: space-evenly;
 }
 
+.text-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+
+}
 
 .poster-title-container > h2{
     width: 200px;

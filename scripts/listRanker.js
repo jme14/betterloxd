@@ -44,11 +44,37 @@ async function rankFilms(data){
     qs.classMain()
 
     qsPromise.then( () => {
+
+        const containerContainer = document.getElementById("containerContainer")
+        while ( containerContainer.firstChild){
+            containerContainer.removeChild(containerContainer.firstChild)
+        }
+
         console.log("HERE IS YOUR COMPLETED LIST!")
         console.log(qs.data) 
+
+        makeResultDisplay(qs.data)
     })
 
 
+}
+
+function makeResultDisplay (sortedData) {
+    const containerContainer = document.getElementById("containerContainer")
+
+    let listDiv = document.createElement("div")
+    listDiv.id = "sortedListDiv"
+    listDiv.classList.add("text-container")
+
+    for ( let i = 0 ; i < sortedData.length ; i++ ){
+        let nextHeader = document.createElement("h4")
+        sortedData[i][0] = i+1
+        nextHeader.innerHTML = `${sortedData[i][0]}) ${sortedData[i][1]} (${sortedData[i][2]})`
+
+        listDiv.appendChild(nextHeader)
+    }
+
+    containerContainer.appendChild(listDiv)
 }
 
 
