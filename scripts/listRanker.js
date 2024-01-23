@@ -50,6 +50,9 @@ async function rankFilms(data){
             containerContainer.removeChild(containerContainer.firstChild)
         }
 
+        document.getElementById("poster-title-container").remove()
+        document.getElementById("file-submission-container").remove()
+
         console.log("HERE IS YOUR COMPLETED LIST!")
         console.log(qs.data) 
 
