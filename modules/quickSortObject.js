@@ -191,15 +191,14 @@ export default class QuickSortObject{
 
     // OPTIONAL STEP: SHUFFLE DATA SO THAT THE PIVOT CHANGES
     shuffleData(){
-        console.log(`Shuffling data, which is of length ${this.data.length}`)
-        for ( let i = this.data.length-1 ; i > 0 ; i-- ){
+
+        for ( let i = this.high ; i >= this.low ; i-- ){
             const j = Math.floor(Math.random()*(i+1))
 
             const temp = this.data[i]
             this.data[i] = this.data[j]
             this.data[j] = temp
         } 
-        console.log(`Done shuffling data, which is now of length ${this.data.length}`)
 
         this.resetRowsWithoutEvaluation()
         this.populatePosters()
