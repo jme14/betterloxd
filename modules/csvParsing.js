@@ -1,4 +1,4 @@
-
+import BetterloxdFilmRecord from "./betterloxdFilmRecord.js"
 
 export function readLetterboxdHomemadeList(data){
     const papa = Papa.parse(data)
@@ -10,15 +10,7 @@ export function readLetterboxdHomemadeList(data){
         if ( papaData[i].length !== 8){
             continue
         } 
-        let record = []
-
-        record.push(i) //position
-        record.push(papaData[i][1]) //title 
-        record.push(papaData[i][2]) //year 
-        record.push(papaData[i][3]) //URL
-        record.push(papaData[i][4]) //rating
-        record.push(papaData[i][5]) //watched date
-        record.push(papaData[i][6]) //description
+        let record = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], papaData[i][5], papaData[i][6])
 
         returnArray.push(record)
     }
@@ -43,15 +35,7 @@ export function readLetterboxdDataDiary(data, removeRewatches){
             continue
         }
         
-        let newRecord = [];
-
-        newRecord.push(i+1) // position 
-        newRecord.push(papaData[i][1]) // title  
-        newRecord.push(papaData[i][2]) // year 
-        newRecord.push(papaData[i][3]) // url 
-        newRecord.push(papaData[i][4]) // rating 
-        newRecord.push(papaData[i][7]) // watchedDate
-        newRecord.push("NULL") // description 
+        let newRecord = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], papaData[i][7], "NULL")
 
         realData.push(newRecord)
     }
@@ -68,16 +52,8 @@ export function readLetterboxdDataRatings(data){
     for ( let i = 1 ; i < papaData.length ; i++ ){
         if ( papaData[i].length !== 5) continue
 
-        let returnArrayElement = []
-        returnArrayElement.push(i)  // position 
-        returnArrayElement.push(papaData[i][1]) //title 
-        returnArrayElement.push(papaData[i][2]) //year
-        returnArrayElement.push(papaData[i][3]) //url 
-        returnArrayElement.push(papaData[i][4]) //rating 
-        returnArrayElement.push("NULL") //watchedDate
-        returnArrayElement.push("NULL") //description
-
-        returnArray.push(returnArrayElement)
+        let newRecord = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], "NULL", "NULL")
+        returnArray.push(newRecord)
     }
 
     return returnArray

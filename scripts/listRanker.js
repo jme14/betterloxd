@@ -72,7 +72,7 @@ function makeResultDisplay (sortedData) {
     for ( let i = 0 ; i < sortedData.length ; i++ ){
         let nextHeader = document.createElement("h4")
         sortedData[i][0] = i+1
-        nextHeader.innerHTML = `${sortedData[i][0]}) ${sortedData[i][1]} (${sortedData[i][2]})`
+        nextHeader.innerHTML = `${sortedData[i].getRank()}) ${sortedData[i].getTitle()} (${sortedData[i].getYear()})`
 
         listDiv.appendChild(nextHeader)
     }

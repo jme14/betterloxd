@@ -92,8 +92,8 @@ export default async function addRow(containerContainer, originalDiv, filmRecord
         }
     }
 
-    let tmdbData = await getFilmByTitleAndYear(filmRecord[1], filmRecord[2])
-    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData), filmRecord[1])
-    supplyInfoButtonData(filmRecord[1], filmRecord[2], clone)
+    let tmdbData = await getFilmByTitleAndYear(filmRecord.getTitle(), filmRecord.getYear())
+    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData), filmRecord.getTitle())
+    supplyInfoButtonData(filmRecord.getTitle(), filmRecord.getYear(), clone)
 }
 

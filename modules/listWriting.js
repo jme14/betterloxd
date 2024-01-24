@@ -1,9 +1,8 @@
-
 export default function writeListForDownload(data){
     let allLines = "Position,Title,Year,URL,Rating,Watched Date,Description\n"
 
     for ( let i = 0 ; i < data.length ; i++ ){
-        let betterLine = `${data[i][0]},"${data[i][1]}",${data[i][2]},${data[i][3]},${data[i][4]},${data[i][5]},"${data[i][6]}",\n`
+        let betterLine = `${data[i].getRank()},"${data[i].getTitle()}",${data[i].getYear()},${data[i].getUrl()},${data[i].getRating()},${data[i].getWatchedDate()},"${data[i].getDescription()}",\n`
         allLines = allLines + betterLine
     }
 

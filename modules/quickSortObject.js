@@ -2,6 +2,8 @@ import { getFilmByTitleAndYear } from "./tmdbApi.js"
 import { getPosterPathFromTMDBData} from "./tmdbApi.js"
 import addRow from "./rankRowMaker.js"
 
+import BetterloxdFilmRecord from "./betterloxdFilmRecord.js"
+
 export default class QuickSortObject{
 
     constructor (data, low, high, source){
@@ -61,6 +63,7 @@ export default class QuickSortObject{
 
     // STEP 1 
     async populatePosters(){
+        console.log(this.data)
         let pivot = this.data[this.high]
         let originalDiv = document.getElementById("container-1")
         let containerContainer = document.getElementById("containerContainer")
@@ -68,9 +71,9 @@ export default class QuickSortObject{
         const shuffleButtonDiv = this.getShuffleButtonDiv()
         containerContainer.appendChild(shuffleButtonDiv)
 
-        let pivotTMDB = await getFilmByTitleAndYear(pivot[1], pivot[2])
+        let pivotTMDB = await getFilmByTitleAndYear(pivot.getTitle(), pivot.getYear())
         document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(pivotTMDB))
-        document.getElementById("middleFilmImg-1").setAttribute("alt", pivotTMDB[1])
+        document.getElementById("middleFilmImg-1").setAttribute("alt", pivotTMDB.getTitle())
     
         for ( let i = this.low ; i < this.high ; i++ ){
             if ( this.data[i] !== undefined) {
