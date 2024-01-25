@@ -1,6 +1,7 @@
 /* this class is used to more easily read how film data is being accessed */
 export default class BetterloxdFilmRecord{
     constructor(rank, title, year, url, rating, watchedDate, description) {
+        this.setRank(rank);
         this.setTitle(title);
         this.setYear(year);
         this.setUrl(url);

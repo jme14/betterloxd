@@ -55,12 +55,14 @@ function main(){
 }
 
 function useReadData(data){
+    console.log(data)
+    console.log(data.length)
     const lowerBound = document.getElementById("low").value
     const higherBound = document.getElementById("high").value
 
 
     function isInRange(record){
-        return (record[4] >= lowerBound && record[4] <= higherBound)
+        return (record.getRating() >= lowerBound && record.getRating() <= higherBound)
     }
 
     data = data.filter(isInRange)
