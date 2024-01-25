@@ -73,7 +73,7 @@ export default class QuickSortObject{
 
         let pivotTMDB = await getFilmByTitleAndYear(pivot.getTitle(), pivot.getYear())
         document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(pivotTMDB))
-        document.getElementById("middleFilmImg-1").setAttribute("alt", pivotTMDB.getTitle())
+        document.getElementById("middleFilmImg-1").setAttribute("alt", pivot.getTitle())
     
         for ( let i = this.low ; i < this.high ; i++ ){
             if ( this.data[i] !== undefined) {
