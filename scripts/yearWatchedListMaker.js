@@ -32,7 +32,7 @@ function useReadData(data){
     const yearSubmitted = document.getElementById("yearPicker").value
 
     function isInRange(record){
-        const year = record[5].split("-")[0]
+        const year = record.getWatchedDate().split("-")[0]
         return year === yearSubmitted
     }
 
