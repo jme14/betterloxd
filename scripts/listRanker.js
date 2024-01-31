@@ -77,7 +77,36 @@ function makeResultDisplay (sortedData) {
         listDiv.appendChild(nextHeader)
     }
 
+
+    let onRankedListDownload = function(inReverse){
+        if ( inReverse) {
+            console.log("You want it in reverse!")
+        } else {
+            console.log("You want it in order!")
+        }
+    }
+
+    let downloadListDiv = document.createElement("div")
+    downloadListDiv.id = "downloadRankedListDiv"
+    downloadListDiv.classList.add("rankedListButtonDiv")
+
+
+    let downloadInOrder = document.createElement("button")
+    downloadInOrder.id = "downloadInOrderButton"
+    downloadInOrder.innerHTML = "Download List In Order"
+    downloadInOrder.addEventListener("click", () => onRankedListDownload(false))
+
+    let downloadReverseOrder = document.createElement("button")
+    downloadReverseOrder.id = "downloadReverseOrderButton"
+    downloadReverseOrder.innerHTML = "Download List In Reverse Order"
+    downloadReverseOrder.addEventListener("click", () => onRankedListDownload(true))
+
+
+    downloadListDiv.appendChild(downloadInOrder)
+    downloadListDiv.appendChild(downloadReverseOrder)
+
     containerContainer.appendChild(listDiv)
+    containerContainer.appendChild(downloadListDiv)
 }
 
 
