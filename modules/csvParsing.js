@@ -35,7 +35,7 @@ export function readLetterboxdDataDiary(data, removeRewatches){
             continue
         }
         
-        let newRecord = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], papaData[i][7], "NULL")
+        let newRecord = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], papaData[i][7], "")
 
         realData.push(newRecord)
     }
@@ -52,7 +52,7 @@ export function readLetterboxdDataRatings(data){
     for ( let i = 1 ; i < papaData.length ; i++ ){
         if ( papaData[i].length !== 5) continue
 
-        let newRecord = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], "NULL", "NULL")
+        let newRecord = new BetterloxdFilmRecord(i, papaData[i][1], papaData[i][2], papaData[i][3], papaData[i][4], "", "")
         returnArray.push(newRecord)
     }
 
