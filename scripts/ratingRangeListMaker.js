@@ -55,8 +55,6 @@ function main(){
 }
 
 function useReadData(data){
-    console.log(data)
-    console.log(data.length)
     const lowerBound = document.getElementById("low").value
     const higherBound = document.getElementById("high").value
 

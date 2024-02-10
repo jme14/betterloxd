@@ -8,14 +8,7 @@ export default class QuickSortObject{
 
     constructor (data, low, high, source){
 
-        console.log(data)
-        console.log(low)
-        console.log(high)
-
-
-        // this is kind of stupid, change this later 
         while (data[data.length-1].length === 1){
-            console.log("POP POP")
             data.pop()
         }
 
@@ -24,6 +17,8 @@ export default class QuickSortObject{
         this.low = low 
         this.high = high 
         this.pivotIndex = null
+
+        this.sortedFilmsSet = new Set()
 
         this._resolveFunction = null
         this._recursiveCallsComplete = false
@@ -48,11 +43,9 @@ export default class QuickSortObject{
 
     async classMain(){
         if ( this.low > this.high || this.low === this.high ){
-            console.log("Don't worry! I'm going to mark this recursive call as complete!")
             this.markRecursiveCallsComplete()
             return
         } else {
-            console.log("The above are absolutely not the same number heehee!")
             try{
                 await this.populatePosters()
             } catch (error){
@@ -63,7 +56,6 @@ export default class QuickSortObject{
 
     // STEP 1 
     async populatePosters(){
-        console.log(this.data)
         let pivot = this.data[this.high]
         let originalDiv = document.getElementById("container-1")
         let containerContainer = document.getElementById("containerContainer")
@@ -98,10 +90,8 @@ export default class QuickSortObject{
             this.markRecursiveCallsComplete()
         })
 
-        console.log(`Data has a length of ${this.data.length}`)
 
         function addCycleSubmitToPage(){
-            console.log("Appending to page!")
             containerContainer.appendChild(divForSubmitForCycle)
         }
     }
@@ -123,8 +113,6 @@ export default class QuickSortObject{
             // depending on where the image is displayed, this is the result 
             let leftPossibility = document.getElementById(`leftFilmImg-${index}`)
             if ( leftPossibility === null ) {
-                console.log(document.getElementById("containerContainer"))
-                console.log(index)
                 throw ( new Error("Cannot find left possibility; element doesn't exist"))
             }
             if ( leftPossibility.style.display === "none"){
@@ -165,7 +153,6 @@ export default class QuickSortObject{
         shuffleButtonDiv.remove()
 
         while (containerContainer.firstChild){
-            console.log("Removing child")
             containerContainer.removeChild(containerContainer.firstChild)
         }
         containerContainer.appendChild(clone)
@@ -177,16 +164,13 @@ export default class QuickSortObject{
         this.leftCall = new QuickSortObject(this.data, this.low, this.pivotIndex-1, "left")
         let promiseLeft = this.leftCall.getCompletionPromise()
         await this.leftCall.classMain()
-        console.log(promiseLeft)
         await promiseLeft
 
         this.rightCall = new QuickSortObject(this.data, this.pivotIndex+1, this.high, "right")
         let promiseRight = this.rightCall.getCompletionPromise()
         await this.rightCall.classMain()
-        console.log(promiseRight)
         await promiseRight
 
-        console.log("Returning!")
         return 
 
     }

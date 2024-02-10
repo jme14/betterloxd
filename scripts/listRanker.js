@@ -38,7 +38,6 @@ async function useReadData(data) {
 }
 
 async function rankFilms(data){
-    console.log("We made it here!")
     let qs = new QuickSortObject(data, 0, data.length-1, "start")
     let qsPromise = qs.getCompletionPromise()
     qs.classMain()
