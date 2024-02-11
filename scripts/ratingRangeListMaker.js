@@ -4,15 +4,24 @@ import {readLetterboxdDataRatings} from "../modules/csvParsing.js"
 import writeListForDownload from "../modules/listWriting.js"
 
 function readRatingsFile(){
-    const input = document.getElementById("ratingsCsv")
 
+
+    const lowerBound = document.getElementById("low").value
+    const higherBound = document.getElementById("high").value
+
+    if ( lowerBound > higherBound ){
+        alert("Select a higher value greater than or equal to the low value")
+        return;
+    }
+
+    const input = document.getElementById("ratingsCsv")
     const file = input.files[0]
 
     if ( file ){
         const reader = new FileReader()
         reader.onload = function(e){
             const content = e.target.result
-            useReadData(readLetterboxdDataRatings(content))
+            useReadData(readLetterboxdDataRatings(content), lowerBound, higherBound)
         }
 
         reader.readAsText(file)
@@ -54,10 +63,7 @@ function main(){
     }
 }
 
-function useReadData(data){
-    const lowerBound = document.getElementById("low").value
-    const higherBound = document.getElementById("high").value
-
+function useReadData(data, lowerBound, higherBound){
 
     function isInRange(record){
         return (record.getRating() >= lowerBound && record.getRating() <= higherBound)
