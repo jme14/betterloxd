@@ -6,26 +6,21 @@ export default function writeListForDownload(data){
         allLines = allLines + betterLine
     }
 
-    // Create a Blob containing the CSV content
     const blob = new Blob([allLines], { type: 'text/csv' });
 
-    // Create a link element
     const link = document.createElement('a');
-
-    // Set the href attribute to a data URL representing the Blob
+    link.innerHTML = "Download .csv"
     link.href = window.URL.createObjectURL(blob);
 
-    // Set the download attribute with the desired file name
-    link.download = 'test.csv';
+    const fileName = document.getElementById("fileNameInput").value
+    link.download = `${fileName}.csv`;
 
-    // Append the link to the body
-    document.body.appendChild(link);
 
-    // Trigger a click event on the link to initiate the download
-    link.click();
+    link.setAttribute("style", "color: white")
 
-    // Remove the link from the DOM
-    document.body.removeChild(link);
+    const linkDiv = document.getElementById("downloadLinkDiv")
+    linkDiv.appendChild(link);
+
 
 
 }

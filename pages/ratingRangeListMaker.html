@@ -1,34 +1,51 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Betterloxd: Providing Features for Letterboxd Not On Letterboxd</title>
-    <link rel="stylesheet" href="../styles/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.js" integrity="sha512-M0cjXJTonbWEdLI3HJIoJSQBb9980RWmOCk+tvWkhgFrAZqSSIg1+1Db/vDu7Qk9W3L90gBynve17PYvarjfQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="module" src="../scripts/ratingRangeListMaker.js"></script>
-  </head>
-  <body>
-    <h1> You have reached the rating range list maker! </h1>
-    <a href="../index.html">Go back</a>
 
-    <div class="container">
-      <div class="item">
-        <label for="low">Low Value:</label>
-        <input type="range" id="low" name="low" min="0.5" max="5" step="0.5" value="0.5">
-        <span id="lowValue">0.5</span>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Betterloxd: Providing Features for Letterboxd Not On Letterboxd</title>
+  <link rel="stylesheet" href="../styles/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.js"
+    integrity="sha512-M0cjXJTonbWEdLI3HJIoJSQBb9980RWmOCk+tvWkhgFrAZqSSIg1+1Db/vDu7Qk9W3L90gBynve17PYvarjfQA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="module" src="../scripts/ratingRangeListMaker.js"></script>
+</head>
 
-        <label for="high">High Value:</label>
-        <input type="range" id="high" name="high" min="0.5" max="5" step="0.5" value="5">
-        <span id="highValue">5.0</span>
-      </div>
-        <div class="item">
-          <input type="file" id="ratingsCsv" accept=".csv">
-          <button id="ratingsCsvSubmit">Submit</button>
-        </div>
+<body>
+  <h1> You have reached the rating range list maker! </h1>
+  <a href="../index.html">Go back</a>
+
+  <div class="container">
+    <div class="item">
+      <label for="low">Low Value:</label>
+      <input type="range" id="low" name="low" min="0.5" max="5" step="0.5" value="0.5">
+      <span id="lowValue">0.5</span>
+
+      <label for="high">High Value:</label>
+      <input type="range" id="high" name="high" min="0.5" max="5" step="0.5" value="5">
+      <span id="highValue">5.0</span>
     </div>
-  </body>
+    <div class="item">
+      <label for="ratingsCsvFile">Upload ratings.csv from Letterboxd Export</label>
+      <input name="ratingsCsvFile" type="file" id="ratingsCsv" accept=".csv">
+    </div>
+
+    <div class="item">
+      <label for="fileNameInput">Enter Name for .csv File (Optional)</label>
+      <input name="fileNameInput" type="text" placeholder="ratingsRangeList" id="fileNameInput" value="ratingsRangeList">
+    </div>
+
+    <div class="item">
+      <button id="ratingsCsvSubmit">Submit</button>
+    </div>
+
+    <div class="item" id="downloadLinkDiv">
+
+    </div>
+
+  </div>
+</body>
+
 </html>
