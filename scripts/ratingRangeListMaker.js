@@ -17,6 +17,11 @@ function readRatingsFile(){
     const input = document.getElementById("ratingsCsv")
     const file = input.files[0]
 
+    if ( file.name !== "ratings.csv"){
+        alert("Warning: This appears to not be the \"ratings\" file from a Letterboxd export. Choose a file named \"ratings.csv\"")
+        return
+    }
+
     if ( file ){
         const reader = new FileReader()
         reader.onload = function(e){
