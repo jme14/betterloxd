@@ -19,6 +19,10 @@ export default function writeListForDownload(data){
     link.setAttribute("style", "color: white")
 
     const linkDiv = document.getElementById("downloadLinkDiv")
+    while(linkDiv.firstChild) {
+        linkDiv.removeChild(linkDiv.lastChild)
+    }
+
     linkDiv.appendChild(link);
 
 
