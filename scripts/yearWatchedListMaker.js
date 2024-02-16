@@ -30,6 +30,11 @@ function main(){
 function useReadData(data){
 
     const yearSubmitted = document.getElementById("yearPicker").value
+    console.log(parseInt(yearSubmitted))
+    if(Number.isNaN(parseInt(yearSubmitted))) {
+        alert(`Not a valid year.`)
+        return
+    }
 
     function isInRange(record){
         const year = record.getWatchedDate().split("-")[0]
