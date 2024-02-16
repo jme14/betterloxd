@@ -37,6 +37,10 @@ function useReadData(data){
     }
 
     data = data.filter(isInRange)
+    if (data.length === 0){
+        alert(`No films found from the year ${yearSubmitted}`)
+        return;
+    }
 
     for ( let i = 0 ; i < data.length; i++ ){
         console.log(data[i])
