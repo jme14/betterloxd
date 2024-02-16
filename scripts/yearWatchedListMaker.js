@@ -8,6 +8,11 @@ function readDiaryFile(){
 
     const file = input.files[0]
 
+    if ( file.name !== "diary.csv"){
+        alert("Warning: This appears to not be the \"diary\" file from a Letterboxd export. Choose a file named \"diary.csv\"")
+        return
+    }
+
     if ( file ){
         const reader = new FileReader()
         reader.onload = function(e){
