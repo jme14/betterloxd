@@ -64,13 +64,10 @@ export default class QuickSortObject{
         containerContainer.appendChild(shuffleButtonDiv)
 
         let pivotTMDB = await getFilmByTitleAndYear(pivot.getTitle(), pivot.getYear())
-        document.getElementById("middleFilmImg-1").setAttribute("src", getPosterPathFromTMDBData(pivotTMDB))
-        document.getElementById("middleFilmImg-1").setAttribute("alt", pivot.getTitle())
     
         for ( let i = this.low ; i < this.high ; i++ ){
             if ( this.data[i] !== undefined) {
-                //addRow(containerContainer,originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
-                setTimeout(addRow, 1000, containerContainer, originalDiv, this.data[i], 2+(i-this.low), getPosterPathFromTMDBData(pivotTMDB))
+                setTimeout(addRow, 1000, containerContainer, getPosterPathFromTMDBData(pivotTMDB), this.data[i], 2+(i-this.low))
             }
         }
         setTimeout(addCycleSubmitToPage, (this.high-this.low)+1000)

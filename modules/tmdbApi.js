@@ -12,6 +12,10 @@ export async function getFilmByTitleAndYear(title, year){
     const responseData = await response.json()
 
     const data = responseData?.results
+    if ( data === null) {
+        alert("Can't look up films right now, try again later")
+        return null;
+    }
 
     for ( let i = 0 ; i < data.length ; i++){
         const yearFromData = data[i].release_date.split("-")[0]

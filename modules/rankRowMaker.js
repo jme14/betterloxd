@@ -1,99 +1,106 @@
 import { getFilmByTitleAndYear, getPosterPathFromTMDBData } from "./tmdbApi.js"
 
- function setAllImagesInDiv(theDiv, theSrc, theAlt){
-    let allImages = theDiv.querySelectorAll("img")
-    for ( let i = 0 ; i < allImages.length ; i++ ){
-        allImages[i].setAttribute("src", theSrc)
-        allImages[i].setAttribute("alt", theAlt)
-    }
-
-}
-
-function supplyInfoButtonData(diaryTitle, diaryYear, divWithButtons){
+function supplyInfoButtonData(diaryTitle, diaryYear, divWithButtons) {
     let buttonArray = divWithButtons.querySelectorAll("button")
 
-    for ( let i = 0 ; i < buttonArray.length ; i++ ){
+    for (let i = 0; i < buttonArray.length; i++) {
         const currentButton = buttonArray[i]
-        currentButton.addEventListener( "click", () => alertDiaryData(diaryTitle, diaryYear))
+        currentButton.addEventListener("click", () => alertDiaryData(diaryTitle, diaryYear))
     }
 }
 
-function alertDiaryData(diaryTitle, diaryYear){
+function alertDiaryData(diaryTitle, diaryYear) {
     alert(`"${diaryTitle}", ${diaryYear}`)
 }
 
-function movePoster(event, rowDiv, pivotImgSrc){
-
-
-    let imgDiv = event.srcElement
-    let imgInClickedDiv = null
-    if ( imgDiv.tagName === "DIV"){
-        imgInClickedDiv = imgDiv.querySelector("img")
-    } else {
-        imgInClickedDiv = imgDiv
-        imgDiv = imgDiv.parentNode
-    }
-
-    let allImages = rowDiv.querySelectorAll("img")
-    for ( let i = 0 ; i < allImages.length ; i++){
-        if ( allImages[i].style.display !== "none" ){
-            removePoster(allImages[i], pivotImgSrc)
-        }
-    }
-
-    imgInClickedDiv.style.display = "block"
-    showInfoButton(imgDiv)
+function selectFilm(event, clone, pivotImageSrc) {
+    console.log(event)
 }
 
-function removePoster(img, pivotSrc){
-    let imgId = img.id
+/** 
+* Creates a row entry for each film record called 
+* @param containerContainer {HTMLElement} container containing all the rows 
+* @param filmRecord {BetterloxdFilmRecord} film record as defiend in betterloxdFilmRecord.js
+* @param number {int} the nth row, used for giving elements ids 
+* @param pivotImgSrc {String} the src string to the poster of the filmRecord 
+*/
+export default function addRow(containerContainer, pivotImgSrc, filmRecord, number){
+    let tmdbData = getFilmByTitleAndYear(filmRecord.getTitle(), filmRecord.getYear())
 
-    let position = imgId.split("-")[0]
-    hideInfoButton(img.parentNode)
-    if ( position === "middleFilmImg"){
-        img.setAttribute("src", pivotSrc)
-    } else {
-        img.style.display = "none"
-    }
+    // Create container div
+    var containerDiv = document.createElement("div");
+    containerDiv.id = `container-${number}`;
+    containerDiv.className = "poster-container-container";
+
+    // Create left poster container
+    var leftPosterContainer = document.createElement("div");
+    leftPosterContainer.className = "poster-container item";
+
+    // Create left poster image container
+    var leftPosterImgDiv = document.createElement("div");
+    leftPosterImgDiv.className = "item poster-img leftFilmImgDiv";
+
+    // Create left poster image
+    var leftPosterImg = document.createElement("img");
+    leftPosterImg.className = "leftFilmImg";
+    leftPosterImg.id = `leftFilmImg-${number}`;
+    leftPosterImg.src = pivotImgSrc;
+    leftPosterImg.alt = "Placeholder poster";
+
+    // Append left poster image to its container
+    leftPosterImgDiv.appendChild(leftPosterImg);
+
+    // Create left info button
+    var leftInfoButton = document.createElement("button");
+    leftInfoButton.className = "leftFilmInfoButton hiddenButton";
+    leftInfoButton.id = `leftFilmInfoButton-${number}`;
+    leftInfoButton.textContent = "More info";
+
+    // Append left info button to its container
+    leftPosterContainer.appendChild(leftPosterImgDiv);
+    leftPosterContainer.appendChild(leftInfoButton);
+
+    // Create right poster container
+    var rightPosterContainer = document.createElement("div");
+    rightPosterContainer.className = "poster-container item";
+
+    // Create right poster image container
+    var rightPosterImgDiv = document.createElement("div");
+    rightPosterImgDiv.className = "item poster-img rightFilmImgDiv";
+
+    // Create right poster image
+    var rightPosterImg = document.createElement("img");
+    rightPosterImg.className = "rightFilmImg";
+    rightPosterImg.id = `rightFilmImg-${number}`;
+    rightPosterImg.alt = "Placeholder poster";
+
+    // Append right poster image to its container
+    rightPosterImgDiv.appendChild(rightPosterImg);
+
+    // Create right info button
+    var rightInfoButton = document.createElement("button");
+    rightInfoButton.className = "rightFilmInfoButton";
+    rightInfoButton.id = `rightFilmInfoButton-${number}`;
+    rightInfoButton.textContent = "More info";
+
+    // Append right info button to its container
+    rightPosterContainer.appendChild(rightPosterImgDiv);
+    rightPosterContainer.appendChild(rightInfoButton);
+
+    // Add event listeners to left and right side 
+    leftPosterContainer.addEventListener("click", (event) => selectFilm(event, number, pivotImgSrc))
+    rightPosterContainer.addEventListener("click", (event) => selectFilm(event, number, pivotImgSrc))
+
+    // Append left and right poster containers to main container
+    containerDiv.appendChild(leftPosterContainer);
+    containerDiv.appendChild(rightPosterContainer);
+
+    // Append main container to the body
+    containerContainer.appendChild(containerDiv);
+
+    tmdbData.then( (data) =>{
+
+        rightPosterImg.src = getPosterPathFromTMDBData(data);
+    })
+
 }
-function hideInfoButton(imgDiv){
-    const currentInfoButton = imgDiv.nextElementSibling
-    if ( !currentInfoButton.classList.contains("hiddenButton")){
-        currentInfoButton.classList.add("hiddenButton")
-    }
-
-}
-
-function showInfoButton(imgDiv){
-    const infoButton = imgDiv.nextElementSibling
-    if ( infoButton.classList.contains("hiddenButton")){
-        infoButton.classList.remove("hiddenButton")
-    }
-}
-
-export default async function addRow(containerContainer, originalDiv, filmRecord, number, pivotImgSrc){
-    let clone = originalDiv.cloneNode(true)
-    clone.id = `container-${number}`
-    containerContainer.appendChild(clone)
-
-    let imgList = clone.querySelectorAll("img")
-    for ( let i = 0 ; i < imgList.length ; i++){
-        let className = imgList[i].className
-        imgList[i].id = `${className}-${number}`
-
-        let parentDiv = imgList[i].parentNode
-        let noscriptText = document.createElement("noscript")
-        noscriptText.innerHTML = filmRecord[1]
-
-        parentDiv.appendChild(noscriptText)
-
-        if ( className !== "middleFilmImg"){
-            parentDiv.addEventListener("click", (event) => movePoster(event, clone, pivotImgSrc))
-        }
-    }
-
-    let tmdbData = await getFilmByTitleAndYear(filmRecord.getTitle(), filmRecord.getYear())
-    setAllImagesInDiv(clone, getPosterPathFromTMDBData(tmdbData), filmRecord.getTitle())
-    supplyInfoButtonData(filmRecord.getTitle(), filmRecord.getYear(), clone)
-}
-

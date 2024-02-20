@@ -12,12 +12,15 @@ function readListFile(){
     const input = document.getElementById("rankCsv")
 
     const file = input.files[0]
+    document.getElementById("containerContainer").classList.remove("invisibleElement")
 
     if ( file ){
         const reader = new FileReader()
         reader.onload = function(e){
             const content = e.target.result
             useReadData(readLetterboxdHomemadeList(content))
+
+
         }
 
         reader.readAsText(file)
@@ -35,14 +38,19 @@ function main(){
 /* in here is where the ranking will take place */
 async function useReadData(data) {
     data = await rankFilms(data)
+    const pivotContainer = document.getElementById("container-1")
+    //modifyPivotContainer(pivotContainer)
+}
+
+function modifyPivotContainer(pivotContainer){
+    pivotContainer.classList.add("invisibleElement")
 }
 
 async function rankFilms(data){
     let qs = new QuickSortObject(data, 0, data.length-1, "start")
-    let qsPromise = qs.getCompletionPromise()
     qs.classMain()
+    let qsPromise = await qs.getCompletionPromise()
 
-    qsPromise.then( () => {
 
         const containerContainer = document.getElementById("containerContainer")
         while ( containerContainer.firstChild){
@@ -52,12 +60,7 @@ async function rankFilms(data){
         document.getElementById("poster-title-container").remove()
         document.getElementById("file-submission-container").remove()
 
-        console.log("HERE IS YOUR COMPLETED LIST!")
-        console.log(qs.data) 
-
         makeResultDisplay(qs.data)
-    })
-
 
 }
 
