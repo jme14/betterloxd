@@ -144,15 +144,9 @@ export default class QuickSortObject{
 
     async resetRowsWithoutEvaluation(){
         let containerContainer = document.getElementById("containerContainer")
-        let clone = document.getElementById("container-1").cloneNode(true)
-
-        let shuffleButtonDiv = document.getElementById("shuffleButtonDiv")
-        shuffleButtonDiv.remove()
-
         while (containerContainer.firstChild){
             containerContainer.removeChild(containerContainer.firstChild)
         }
-        containerContainer.appendChild(clone)
     }
 
     // STEP 5: WAIT FOR THE LEFT TO DO ITS THING 
