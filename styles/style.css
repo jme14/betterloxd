@@ -112,3 +112,11 @@ button{
 .invisibleElement{
     display: none;
 }
+
+.chosenFilm{
+    background-color: green;
+}
+
+.notChosenFilm{
+    background-color: red;
+}

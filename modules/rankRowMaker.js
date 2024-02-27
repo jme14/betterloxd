@@ -13,8 +13,44 @@ function alertDiaryData(diaryTitle, diaryYear) {
     alert(`"${diaryTitle}", ${diaryYear}`)
 }
 
-function selectFilm(event, clone, pivotImageSrc) {
-    console.log(event)
+
+/** 
+* @param {HTMLElement} event 
+* @param {number} number 
+* @param {string} pivotImageSrc 
+*/
+function selectFilm(chosenFilm){
+    console.log(chosenFilm)
+
+    let filmsParent = chosenFilm.parentNode.parentNode.parentNode
+
+    let notChosenFilm = getUnchosenFromParentDiv(filmsParent, chosenFilm)
+    markFirstSelected(chosenFilm, notChosenFilm)
+
+
+    function getUnchosenFromParentDiv(parentDiv, chosenFilm){
+        let notChosenFilm = parentDiv.children[1].children[0].children[0];
+        if ( notChosenFilm === chosenFilm ) {
+            console.log("Oops, they were the same! Fixing that")
+            notChosenFilm = parentDiv.children[0].children[0].children[0]
+        } 
+
+        return notChosenFilm 
+    }
+    function markFirstSelected(chosenFilm, notChosenFilm){
+        chosenFilm = chosenFilm.parentNode
+        notChosenFilm = notChosenFilm.parentNode
+
+        if (chosenFilm.classList.contains("chosenFilm")) return;
+        if (chosenFilm.classList.contains("notChosenFilm")) {
+            chosenFilm.classList.remove("notChosenFilm")
+            notChosenFilm.classList.remove("chosenFilm")
+        }
+
+        chosenFilm.classList.add("chosenFilm")
+        notChosenFilm.classList.add("notChosenFilm")
+
+    }
 }
 
 /** 
@@ -77,6 +113,10 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     // Append right poster image to its container
     rightPosterImgDiv.appendChild(rightPosterImg);
 
+    // Add event listeners to left and right side 
+    leftPosterImg.addEventListener("click", (event) => selectFilm(event.target))
+    rightPosterImg.addEventListener("click", (event) => selectFilm(event.target))
+
     // Create right info button
     var rightInfoButton = document.createElement("button");
     rightInfoButton.className = "rightFilmInfoButton";
@@ -86,10 +126,6 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     // Append right info button to its container
     rightPosterContainer.appendChild(rightPosterImgDiv);
     rightPosterContainer.appendChild(rightInfoButton);
-
-    // Add event listeners to left and right side 
-    leftPosterContainer.addEventListener("click", (event) => selectFilm(event, number, pivotImgSrc))
-    rightPosterContainer.addEventListener("click", (event) => selectFilm(event, number, pivotImgSrc))
 
     // Append left and right poster containers to main container
     containerDiv.appendChild(leftPosterContainer);
