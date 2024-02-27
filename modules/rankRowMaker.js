@@ -75,6 +75,7 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     // Create left poster image container
     var leftPosterImgDiv = document.createElement("div");
     leftPosterImgDiv.className = "item poster-img leftFilmImgDiv";
+    leftPosterImgDiv.id = `leftFilmImgDiv-${number}`
 
     // Create left poster image
     var leftPosterImg = document.createElement("img");
@@ -103,6 +104,7 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     // Create right poster image container
     var rightPosterImgDiv = document.createElement("div");
     rightPosterImgDiv.className = "item poster-img rightFilmImgDiv";
+    rightPosterImgDiv.id = `rightFilmImgDiv-${number}`
 
     // Create right poster image
     var rightPosterImg = document.createElement("img");

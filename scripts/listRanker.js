@@ -57,7 +57,6 @@ async function rankFilms(data){
             containerContainer.removeChild(containerContainer.firstChild)
         }
 
-        document.getElementById("poster-title-container").remove()
         document.getElementById("file-submission-container").remove()
 
         makeResultDisplay(qs.data)

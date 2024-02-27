@@ -106,23 +106,19 @@ export default class QuickSortObject{
             return data
         }
 
+        //given the container index, determine which film has been chosen as better 
+        // returns true on the pivot losing and false on the new film losing 
         function compareFilms(index){
-            // depending on where the image is displayed, this is the result 
-            let leftPossibility = document.getElementById(`leftFilmImg-${index}`)
-            if ( leftPossibility === null ) {
-                throw ( new Error("Cannot find left possibility; element doesn't exist"))
-            }
-            if ( leftPossibility.style.display === "none"){
-                return true
-            }
-            return false
+            let pivotImageDiv = document.getElementById(`leftFilmImgDiv-${index}`)
+
+            return pivotImageDiv.classList.contains("chosenFilm")
         }
 
         let lowSwapper = this.low-1
 
         for ( let highSwapper = this.low ; highSwapper < this.high ; highSwapper++){
             const pivotBetter = compareFilms(highSwapper-this.low+2)
-            if ( pivotBetter ){
+            if ( !pivotBetter ){
                 lowSwapper++
                 this.data = swap(this.data, lowSwapper, highSwapper)
             }
