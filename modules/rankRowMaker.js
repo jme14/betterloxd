@@ -1,18 +1,9 @@
 import { getFilmByTitleAndYear, getPosterPathFromTMDBData } from "./tmdbApi.js"
 
-function supplyInfoButtonData(diaryTitle, diaryYear, divWithButtons) {
-    let buttonArray = divWithButtons.querySelectorAll("button")
 
-    for (let i = 0; i < buttonArray.length; i++) {
-        const currentButton = buttonArray[i]
-        currentButton.addEventListener("click", () => alertDiaryData(diaryTitle, diaryYear))
-    }
+function displayFilmInformation(filmRecord){
+    alert(`${filmRecord.getTitle()} (${filmRecord.getYear()})`)
 }
-
-function alertDiaryData(diaryTitle, diaryYear) {
-    alert(`"${diaryTitle}", ${diaryYear}`)
-}
-
 
 /** 
 * @param {HTMLElement} event 
@@ -85,15 +76,8 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     // Append left poster image to its container
     leftPosterImgDiv.appendChild(leftPosterImg);
 
-    // Create left info button
-    var leftInfoButton = document.createElement("button");
-    leftInfoButton.className = "leftFilmInfoButton hiddenButton";
-    leftInfoButton.id = `leftFilmInfoButton-${number}`;
-    leftInfoButton.textContent = "More info";
-
     // Append left info button to its container
     leftPosterContainer.appendChild(leftPosterImgDiv);
-    leftPosterContainer.appendChild(leftInfoButton);
 
     // Create right poster container
     var rightPosterContainer = document.createElement("div");
@@ -122,6 +106,10 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     rightInfoButton.className = "rightFilmInfoButton";
     rightInfoButton.id = `rightFilmInfoButton-${number}`;
     rightInfoButton.textContent = "More info";
+
+
+    //Add event listener to right info button 
+    rightInfoButton.addEventListener("click", () => displayFilmInformation(filmRecord))
 
     // Append right info button to its container
     rightPosterContainer.appendChild(rightPosterImgDiv);
