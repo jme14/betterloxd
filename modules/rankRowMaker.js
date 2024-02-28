@@ -20,7 +20,6 @@ function alertDiaryData(diaryTitle, diaryYear) {
 * @param {string} pivotImageSrc 
 */
 function selectFilm(chosenFilm){
-    console.log(chosenFilm)
 
     let filmsParent = chosenFilm.parentNode.parentNode.parentNode
 
@@ -31,7 +30,6 @@ function selectFilm(chosenFilm){
     function getUnchosenFromParentDiv(parentDiv, chosenFilm){
         let notChosenFilm = parentDiv.children[1].children[0].children[0];
         if ( notChosenFilm === chosenFilm ) {
-            console.log("Oops, they were the same! Fixing that")
             notChosenFilm = parentDiv.children[0].children[0].children[0]
         } 
 

@@ -81,7 +81,6 @@ function makeResultDisplay (sortedData) {
 
     let onRankedListDownload = function(inReverse){
         if ( inReverse) {
-            console.log("You want it in reverse!")
             sortedData = sortedData.reverse()
 
             for ( let i = 1 ; i <= sortedData.length ; i++ ){
@@ -91,7 +90,6 @@ function makeResultDisplay (sortedData) {
             writeListForDownload(sortedData)
 
         } else {
-            console.log("You want it in order!")
             writeListForDownload(sortedData)
         }
     }

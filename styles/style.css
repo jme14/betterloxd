@@ -114,9 +114,13 @@ button{
 }
 
 .chosenFilm{
-    background-color: green;
+    background-color: #00B021;
 }
 
 .notChosenFilm{
-    background-color: red;
+    background-color: #F27405;
+}
+
+a{
+    color: #F27405;
 }
