@@ -61,6 +61,7 @@ export default class QuickSortObject{
         let containerContainer = document.getElementById("containerContainer")
 
         const shuffleButtonDiv = this.getShuffleButtonDiv()
+        shuffleButtonDiv.classList.add("invisibleElement")
         containerContainer.appendChild(shuffleButtonDiv)
 
         let pivotTMDB = await getFilmByTitleAndYear(pivot.getTitle(), pivot.getYear())
@@ -70,6 +71,7 @@ export default class QuickSortObject{
                 setTimeout(addRow, 1000, containerContainer, getPosterPathFromTMDBData(pivotTMDB), this.data[i], 2+(i-this.low))
             }
         }
+        setTimeout(() => shuffleButtonDiv.classList.remove("invisibleElement"), (this.high-this.low)+1000)
         setTimeout(addCycleSubmitToPage, (this.high-this.low)+1000)
 
         let submitForCycle = document.createElement("button")
@@ -86,7 +88,6 @@ export default class QuickSortObject{
             await this.calculateCycle()
             this.markRecursiveCallsComplete()
         })
-
 
         function addCycleSubmitToPage(){
             containerContainer.appendChild(divForSubmitForCycle)
