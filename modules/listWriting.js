@@ -12,8 +12,15 @@ export default function writeListForDownload(data){
     link.innerHTML = "Download .csv"
     link.href = window.URL.createObjectURL(blob);
 
-    const fileName = document.getElementById("fileNameInput").value
-    link.download = `${fileName}.csv`;
+    let fileName = null
+    try{
+        fileName = document.getElementById("fileNameInput").value
+        link.download = `${fileName}.csv`;
+
+    } catch (e){
+        link.download = `betterloxdList.csv`
+
+    }
 
 
     link.setAttribute("style", "color: white")

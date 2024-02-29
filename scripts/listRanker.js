@@ -7,6 +7,7 @@ import { getPosterPathFromTMDBData } from "../modules/tmdbApi.js"
 import QuickSortObject from "../modules/quickSortObject.js"
 
 import writeListForDownload from "../modules/listWriting.js"
+import BetterloxdFilmRecord from "../modules/betterloxdFilmRecord.js"
 
 function readListFile(){
     const input = document.getElementById("rankCsv")
@@ -31,7 +32,10 @@ function readListFile(){
 
 function main(){
     const submitButton = document.getElementById("rankCsvSubmit")
-    submitButton.addEventListener("click", readListFile)
+    submitButton.addEventListener("click", () => {
+        submitButton.classList.add("invisibleElement")
+        readListFile()
+    })
 }
 
 
@@ -64,6 +68,7 @@ async function rankFilms(data){
 }
 
 function makeResultDisplay (sortedData) {
+    console.log(sortedData)
     const containerContainer = document.getElementById("containerContainer")
 
     let listDiv = document.createElement("div")
@@ -78,8 +83,14 @@ function makeResultDisplay (sortedData) {
         listDiv.appendChild(nextHeader)
     }
 
-
-    let onRankedListDownload = function(inReverse){
+/**
+ * 
+ * @param {BetterloxdFilmRecord[]} sortedData 
+ * @param {Boolean} inReverse 
+ * 
+ * @returns {void}
+ */
+    let onRankedListDownload = function(sortedData, inReverse){
         if ( inReverse) {
             sortedData = sortedData.reverse()
 
@@ -98,16 +109,15 @@ function makeResultDisplay (sortedData) {
     downloadListDiv.id = "downloadRankedListDiv"
     downloadListDiv.classList.add("rankedListButtonDiv")
 
-
     let downloadInOrder = document.createElement("button")
     downloadInOrder.id = "downloadInOrderButton"
     downloadInOrder.innerHTML = "Download List In Order"
-    downloadInOrder.addEventListener("click", () => onRankedListDownload(false))
+    downloadInOrder.addEventListener("click", () => onRankedListDownload(sortedData, false))
 
     let downloadReverseOrder = document.createElement("button")
     downloadReverseOrder.id = "downloadReverseOrderButton"
     downloadReverseOrder.innerHTML = "Download List In Reverse Order"
-    downloadReverseOrder.addEventListener("click", () => onRankedListDownload(true))
+    downloadReverseOrder.addEventListener("click", () => onRankedListDownload(sortedData, true))
 
 
     downloadListDiv.appendChild(downloadInOrder)
