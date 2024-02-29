@@ -13,10 +13,7 @@ function main(){
         window.location.href = "pages/yearWatchedListMaker.html"
     })
 
-    const lCbutton = document.getElementById("listComparer")
-    lCbutton.addEventListener("click", () => {
-        window.location.href = "pages/listComparer.html"
-    })
+  
 
     const lRbutton = document.getElementById("listRanker")
     lRbutton.addEventListener("click", ()=>{
