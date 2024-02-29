@@ -13,6 +13,7 @@ function displayFilmInformation(filmRecord){
 function selectFilm(chosenFilm){
 
     let filmsParent = chosenFilm.parentNode.parentNode.parentNode
+    filmsParent.classList.remove("unselected")
 
     let notChosenFilm = getUnchosenFromParentDiv(filmsParent, chosenFilm)
     markFirstSelected(chosenFilm, notChosenFilm)
@@ -55,7 +56,7 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
     // Create container div
     var containerDiv = document.createElement("div");
     containerDiv.id = `container-${number}`;
-    containerDiv.className = "poster-container-container";
+    containerDiv.className = "poster-container-container unselected";
 
     // Create left poster container
     var leftPosterContainer = document.createElement("div");

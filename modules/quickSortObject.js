@@ -85,6 +85,11 @@ export default class QuickSortObject{
         divForSubmitForCycle.appendChild(submitForCycle)
 
         submitForCycle.addEventListener("click", async () => { 
+            let unselectedRows = document.querySelectorAll(".unselected")
+            if ( unselectedRows.length > 0) {
+                alert("Not all films selected. Select all films and try again.")
+                return;
+            }
             await this.calculateCycle()
             this.markRecursiveCallsComplete()
         })
