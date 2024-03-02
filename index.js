@@ -1,25 +1,19 @@
-import ready from './modules/ready.js';
+const express = require("express")
+const app = express()
+const port = 3000
+
+const path = require("path")
+
+// for serving static files 
+// app.use is middleware 
+app.use(express.static('public'))
+app.use(express.static('public/pages'))
+
+app.get("/", (req,res) => {
+    res.send("Hello!")
+})
 
 
-function main(){
-
-    const rFbutton = document.getElementById("ratingsFilter")
-    rFbutton.addEventListener("click", () => {
-        window.location.href = "pages/ratingRangeListMaker.html"
-    })
-
-    const yEbutton = document.getElementById("yearEndListMaker")
-    yEbutton.addEventListener("click", () => {
-        window.location.href = "pages/yearWatchedListMaker.html"
-    })
-
-  
-
-    const lRbutton = document.getElementById("listRanker")
-    lRbutton.addEventListener("click", ()=>{
-        window.location.href = "pages/listRanker.html"
-    })
-
-}
-
-ready(main)
+app.listen(port, () => {
+    console.log(`We going strong on port ${port}`)
+})
