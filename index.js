@@ -20,6 +20,6 @@ app.get("/tmdbData", (req, res) => {
     res.json(tmdbData)
 })
 
-app.listen(port, () => {
-    console.log(`We going strong on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`We going strong on port ${PORT}`)
 })
