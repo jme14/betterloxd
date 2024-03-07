@@ -6,7 +6,12 @@ import BetterloxdFilmRecord from "./betterloxdFilmRecord.js"
 
 export default class QuickSortObject{
 
-    constructor (data, low, high, source){
+    constructor (data, low, high, tmdbData){
+
+        if ( tmdbData === undefined){
+            this.tmdbData = this.initTMDB()
+        }
+
 
         while (data[data.length-1].length === 1){
             data.pop()
@@ -41,6 +46,21 @@ export default class QuickSortObject{
         return this._recursiveCallsCompletePromise
     }
 
+    async getTMDB(){
+        if ( this.tmdbData !== undefined) return this.tmdbData
+        this.tmdbData = await this.initTMDB()
+        return this.tmdbData
+    }
+    async initTMDB(){
+        return new Promise((resolve, reject) => {
+            let tmdbDataJson = fetch("/tmdbData")
+            tmdbDataJson.then((data) => {
+                resolve(data.json())
+            })
+        })
+
+    }
+
     async classMain(){
         if ( this.low > this.high || this.low === this.high ){
             this.markRecursiveCallsComplete()
@@ -49,6 +69,7 @@ export default class QuickSortObject{
             try{
                 await this.populatePosters()
             } catch (error){
+                console.log("The following error occured")
                 console.log(error)
             }
         }
@@ -64,11 +85,12 @@ export default class QuickSortObject{
         shuffleButtonDiv.classList.add("invisibleElement")
         containerContainer.appendChild(shuffleButtonDiv)
 
-        let pivotTMDB = await getFilmByTitleAndYear(pivot.getTitle(), pivot.getYear())
+        const tmdbData = await this.getTMDB()
+        let pivotTMDB = await getFilmByTitleAndYear(pivot.getTitle(), pivot.getYear(), tmdbData)
     
         for ( let i = this.low ; i < this.high ; i++ ){
             if ( this.data[i] !== undefined) {
-                setTimeout(addRow, 1000, containerContainer, getPosterPathFromTMDBData(pivotTMDB), this.data[i], 2+(i-this.low))
+                setTimeout(addRow, 1000, containerContainer, getPosterPathFromTMDBData(tmdbData.IMG_URL,pivotTMDB), this.data[i], 2+(i-this.low), tmdbData)
             }
         }
         setTimeout(() => shuffleButtonDiv.classList.remove("invisibleElement"), (this.high-this.low)+1000)

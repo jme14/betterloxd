@@ -50,8 +50,8 @@ function selectFilm(chosenFilm){
 * @param number {int} the nth row, used for giving elements ids 
 * @param pivotImgSrc {String} the src string to the poster of the filmRecord 
 */
-export default function addRow(containerContainer, pivotImgSrc, filmRecord, number){
-    let tmdbData = getFilmByTitleAndYear(filmRecord.getTitle(), filmRecord.getYear())
+export default function addRow(containerContainer, pivotImgSrc, filmRecord, number, allTmdbData){
+    let tmdbData = getFilmByTitleAndYear(filmRecord.getTitle(), filmRecord.getYear(),allTmdbData)
 
     // Create container div
     var containerDiv = document.createElement("div");
@@ -125,7 +125,7 @@ export default function addRow(containerContainer, pivotImgSrc, filmRecord, numb
 
     tmdbData.then( (data) =>{
 
-        rightPosterImg.src = getPosterPathFromTMDBData(data);
+        rightPosterImg.src = getPosterPathFromTMDBData(allTmdbData.IMG_URL,data);
     })
 
 }

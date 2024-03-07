@@ -1,14 +1,19 @@
-import {config} from "./tmdbConfig.js"
 
-const TMDB_URL = config.api_base_url
-const TMDB_KEY = config.api_key
-const IMG_URL = config.image_base_url
 
-export async function getFilmByTitleAndYear(title, year){
+
+
+export async function getFilmByTitleAndYear(title, year, tmdbData){
+
+    const TMDB_URL = tmdbData.TMDB_URL
+    const TMDB_KEY = tmdbData.TMDB_KEY
 
     title = title.replace(/ /g,'+')
     const searchString = `${TMDB_URL}search/movie?query=${title}&api_key=${TMDB_KEY}`
     const response = await fetch(searchString)
+    if ( response.status === 404){
+        console.log(searchString)
+        throw new Error("Search string not found")
+    }
     const responseData = await response.json()
 
     const data = responseData?.results
@@ -35,7 +40,7 @@ export async function getFilmByTitleAndYear(title, year){
     return data[0]
 }
 
-export function getPosterPathFromTMDBData(tmdbData){
+export function getPosterPathFromTMDBData(IMG_URL,tmdbData){
     let posterPath = null 
     try{
         posterPath = tmdbData.posterPath

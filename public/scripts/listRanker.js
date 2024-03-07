@@ -1,8 +1,6 @@
 import ready from "../modules/ready.js"
 import {readLetterboxdHomemadeList} from "../modules/csvParsing.js"
 
-import { getFilmByTitleAndYear } from "../modules/tmdbApi.js"
-import { getPosterPathFromTMDBData } from "../modules/tmdbApi.js"
 
 import QuickSortObject from "../modules/quickSortObject.js"
 

@@ -2,17 +2,23 @@ const express = require("express")
 const app = express()
 const port = 3000
 
-const path = require("path")
+const dotenv = require('dotenv')
+dotenv.config({path: __dirname+"/.env"})
 
 // for serving static files 
 // app.use is middleware 
 app.use(express.static('public'))
 app.use(express.static('public/pages'))
 
-app.get("/", (req,res) => {
-    res.send("Hello!")
+app.get("/tmdbData", (req, res) => {
+    const tmdbData = {
+        TMDB_URL: process.env.TMDB_URL,
+        TMDB_KEY: process.env.TMDB_KEY,
+        IMG_URL: process.env.IMG_URL
+    }
+    console.log(tmdbData)
+    res.json(tmdbData)
 })
-
 
 app.listen(port, () => {
     console.log(`We going strong on port ${port}`)
