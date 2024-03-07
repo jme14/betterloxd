@@ -28,8 +28,9 @@ button{
 
 .menu-container{
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .poster-title-container, .button-container{
@@ -123,4 +124,12 @@ button{
 
 a{
     color: #F27405;
+}
+
+img {
+    width: 25vw; /* Set the desired width for your images */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image fills the space without distortion */
+    border: 1px solid #ddd; /* Add a border for visual separation (optional) */
+    border-radius: 5px; /* Add rounded corners for aesthetics (optional) */
 }
