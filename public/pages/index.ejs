@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Betterloxd: Providing Features for Letterboxd Not On Letterboxd</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-	<script type="module" src="/scripts/home.js"></script>
-  </head>
-  <body>
+    <script type="module" src="/scripts/home.js"></script>
+</head>
+
+<body>
 
     <div class="title-container">
         <h1>
@@ -22,19 +24,24 @@
         <div class="item">
             <h3>Make list based on rating range.</h3>
             <img src="images/sevensRanked.png">
-            <button id="ratingsFilter">Select</button>
+            <form action="/ratingRangeListMaker" method="get">
+                <button type="submit" id="ratingsFilter">Select</button>
+            </form>
         </div>
         <div class="item">
             <h3>Make list based on year watched.</h3>
             <img src="images/2022ranked.png">
-            <button id="yearEndListMaker">Select</button>
+            <form action="/yearWatchedListMaker" method="get">
+                <button type="submit">Select</button>
+            </form>
         </div>
        <div class="item">
             <h3>Rank a Betterloxd list.</h3>
             <img src="images/topEver.png">
-            <button id="listRanker">Select</button>
+            <form action="/listRanker" method="get">
+                <button type="submit">Select</button>
+            </form>
         </div>
-     
     </div>
   </body>
 </html>

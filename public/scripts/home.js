@@ -1,3 +1,4 @@
+/*
 import ready from '../modules/ready.js';
 
 
@@ -13,8 +14,6 @@ function main(){
         window.location.href = "pages/yearWatchedListMaker.html"
     })
 
-  
-
     const lRbutton = document.getElementById("listRanker")
     lRbutton.addEventListener("click", ()=>{
         window.location.href = "pages/listRanker.html"
@@ -23,3 +22,4 @@ function main(){
 }
 
 ready(main)
+*/

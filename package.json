@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "## What you need to use betterloxd On letterboxd, you're able to export your data. From this, you get access to your lists, diary, ratings, etc. as .csv files. What betterloxd does is take these .csv files and returns new .csv files that you can import into letterboxd lists.",
   "main": "index.js",
- 
   "scripts": {
     "start": "node index.js",
     "test": "nodemon index.js"
@@ -20,9 +19,10 @@
   "homepage": "https://github.com/jme14/betterloxd#readme",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
     "express": "^4.18.3",
     "nodemon": "^3.1.0"
-  }, 
+  },
   "engines": {
     "node": "20.11.1"
   }
