@@ -1,5 +1,5 @@
 /* this class is used to more easily read how film data is being accessed */
-export default class BetterloxdFilmRecord{
+export default class BetterloxdFilmRecord {
     constructor(rank, title, year, url, rating, watchedDate, description) {
         this.setRank(rank);
         this.setTitle(title);
@@ -10,7 +10,7 @@ export default class BetterloxdFilmRecord{
         this.setDescription(description);
     }
 
-    getRank(){
+    getRank() {
         return this.rank;
     }
     getTitle() {
@@ -37,7 +37,7 @@ export default class BetterloxdFilmRecord{
         return this.description;
     }
 
-    setRank(rank){
+    setRank(rank) {
         this.rank = rank;
     }
     setTitle(newTitle) {
@@ -62,5 +62,20 @@ export default class BetterloxdFilmRecord{
 
     setDescription(newDescription) {
         this.description = newDescription;
+    }
+
+    /**
+     * 
+     * @param {BetterloxdFilmRecord} otherRecord the other instance of comparison 
+     * @returns {boolean} true on equality, false otherwise 
+     */
+    equals(otherRecord) {
+        return (
+            this.getTitle() === otherRecord.getTitle()
+            &&
+            this.getYear() === otherRecord.getYear()
+            &&
+            this.getUrl() === otherRecord.getUrl()
+        )
     }
 }
