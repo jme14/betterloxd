@@ -6,6 +6,30 @@ import QuickSortObject from "../modules/quickSortObject.js"
 
 import writeListForDownload from "../modules/listWriting.js"
 import BetterloxdFilmRecord from "../modules/betterloxdFilmRecord.js"
+/**
+ * Upon a file being submitted, these actions take place 
+ */
+async function onFileSubmission() {
+    let filmRecordArrayUnfiltered = null
+    try{
+        filmRecordArrayUnfiltered = getFilmRecordArrayFromFileUpload()
+    } catch(e){
+        // letterboxd data invalid 
+        return;
+    }
+
+    let filmRecordArray = removeDuplicateArrayElements(filmRecordArrayUnfiltered)
+
+    let sortedFilmRecordArray = await compareFilms(filmRecordArray)
+
+    csvDownloadModule(sortedFilmRecordArray)
+
+}
+
+
+function getFilmRecordArrayFromFileUpload(){
+    return true;
+}
 
 function readListFile() {
     const input = document.getElementById("rankCsv")
@@ -124,3 +148,12 @@ function makeResultDisplay(sortedData) {
 
 
 ready(main)
+ready( () => {
+    const submitButton = document.getElementById("rankCsvSubmit")
+    submitButton.addEventListener("click", onFileSubmission)
+})
+
+/* helper functions */ 
+function removeDuplicateArrayElements(array) {
+    array.filter((item, index) => array.indexOf(index) === item)
+}
